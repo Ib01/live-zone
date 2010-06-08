@@ -3,9 +3,7 @@ package ibsta.LiveZone;
 import java.util.ArrayList;
 
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -20,7 +18,7 @@ import android.widget.Toast;
 
 public class LiveZone extends Activity {
 	
-	private LocationManager m_LocationManager;
+	//private LocationManager m_LocationManager;
 	Location m_bestLocation = null;
 	
 	
@@ -40,7 +38,7 @@ public class LiveZone extends Activity {
 	    
         
 	    //set up location objects
-        m_LocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        //m_LocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         
         
        
@@ -88,6 +86,7 @@ public class LiveZone extends Activity {
 	    	
 	    	PluginManager pm = new PluginManager(getApplicationContext(), "ibsta.LiveZone.ProximityAlert");
 	    	ArrayList<PluginInfo> plins = pm.GetActivityPlugins();
+	    	
 	    	
 	    	
 	    	ZoneManger zm = new ZoneManger(getApplicationContext());
