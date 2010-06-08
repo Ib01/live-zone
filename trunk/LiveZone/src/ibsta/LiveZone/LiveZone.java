@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -98,6 +99,10 @@ public class LiveZone extends Activity {
 	    	TextView txtView = (TextView) findViewById(R.id.AvailableProviders);
 			txtView.setText(String.format("%d", plins.size()));
 	    	
+			ImageButton b1 = (ImageButton) findViewById(R.id.ImageButton01);
+			
+			b1.setImageDrawable(plins.get(0).icon);
+			
 	    	
 	    	/*
 	    	DBAdapter da = new DBAdapter(getApplicationContext());
