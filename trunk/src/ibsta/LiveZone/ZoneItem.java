@@ -2,6 +2,7 @@ package ibsta.LiveZone;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -9,11 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class ZoneItem extends Activity 
 {
@@ -40,35 +44,54 @@ public class ZoneItem extends Activity
 	
 	protected Dialog onCreateDialog(int id) {    
 		
+		switch (id) {
+			case DIALOG_PLUGIN_SELECT_ID:
+				return CreatePluginSelectDialog();
+		}
+		
+		return CreatePluginSelectDialog();
+		 
+	}
+	
+	private Dialog CreatePluginSelectDialog()
+	{
 		Dialog dialog = new Dialog(this);
 		dialog.setContentView(R.layout.plugindialog);
-		dialog.setTitle("Custom Dialog");
+		dialog.setTitle("Select a Live Zone plugin");
 		
-		PopulatePluginDialog(dialog);
+		PluginManager pm = new PluginManager(getApplicationContext(), "ibsta.LiveZone.ProximityAlert");
+		PluginSelectDialogListAdapter pa = new PluginSelectDialogListAdapter(this, pm.GetActivityPlugins());
 		
-		return dialog; 
-	}
-	
-	private void PopulatePluginDialog(Dialog dialog)
-	{
-		
-		// Bound in XML  ListView, As the container for the Item     
 	    ListView list = (ListView) dialog.findViewById(R.id.pluginDialogList);   
-	    
-	    PluginManager pm = new PluginManager(getApplicationContext(), "ibsta.LiveZone.ProximityAlert");
-    	ArrayList<PluginInfo> plins = pm.GetActivityPlugins();
-    	
-	    PluginDialogListAdapter pa = new PluginDialogListAdapter(this, plins);
-	    
+	    list.setOnItemClickListener(PluginSelectClickListener);
 	    
 	    list.setAdapter(pa);
+    	
+	    
+	    return dialog;
 	}
 	
 	
 	
-	public class PluginDialogListAdapter extends ArrayAdapter<PluginInfo> {
+	
+	
+	
+	
+	//PluginSelect
+	private OnItemClickListener PluginSelectClickListener = new OnItemClickListener() {    
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		
+			
+			Toast.makeText(
+					getApplicationContext(), "here", Toast.LENGTH_SHORT).show();    
+			}  
+		}; 
+	
+	
+	
+	public class PluginSelectDialogListAdapter extends ArrayAdapter<PluginInfo> {
 
-	    public PluginDialogListAdapter(Activity activity, List<PluginInfo> plugins) {
+	    public PluginSelectDialogListAdapter(Activity activity, List<PluginInfo> plugins) {
 	        super(activity, 0, plugins);
 	    }
 
