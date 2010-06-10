@@ -1,4 +1,4 @@
-package ibsta.LiveZone;
+package ibsta.LiveZone.Data;
 
 import android.content.ContentValues;
 import android.content.Context;
