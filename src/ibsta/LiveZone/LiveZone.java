@@ -87,11 +87,11 @@ public class LiveZone extends Activity {
 	    public void onClick(View v) {
 	    	
 	    	PluginManager pm = new PluginManager(getApplicationContext(), "ibsta.LiveZone.ProximityAlert");
-	    	ArrayList<PluginInfo> plins = pm.GetActivityPlugins();
+	    	ArrayList<PluginInfo> plins = pm.getActivityPlugins();
 	    	
 	    	
 	    	ZoneManger zm = new ZoneManger(getApplicationContext());
-	    	zm.AddProximityAlert("ibsta.LiveZone.ProximityAlert", plins.get(0), 149.155421, -35.239395, 100.0f);
+	    	zm.addProximityAlert("ibsta.LiveZone.ProximityAlert", plins.get(0), 149.155421, -35.239395, 100.0f);
 	    	
 	    	
 	    	
