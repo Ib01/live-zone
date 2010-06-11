@@ -1,7 +1,5 @@
 package ibsta.LiveZone;
 
-import java.util.ArrayList;
-import java.util.List;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -32,24 +30,17 @@ public class ZoneItem extends Activity
 	//called by the api when we call showDialog
 	protected Dialog onCreateDialog(int id) {    
 		
+		Dialog selDlg;
+		
 		switch (id) {
-			case DIALOG_PLUGIN_SELECT_ID:
-				return new SelectPluginDialog(this);
+		
+			default:
+				selDlg = new SelectPluginDialog(this);
+				break;
 		}
 		
-		return new SelectPluginDialog(this);
-		 
+		return selDlg;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	

@@ -22,40 +22,71 @@ public class ZoneManger {
 	}
 	
 	
-	public void AddProximityAlert(String action, PluginInfo plugin, double latitude, double longtitude){
+	/**
+	 * add a Proximity Alert. uses default radius of 100.0f, and a default expiration for the alert of -1, 
+	 * or never expires
+	 * @param action
+	 * @param plugin
+	 * @param latitude
+	 * @param longtitude
+	 */
+	public void addProximityAlert(String action, PluginInfo plugin, double latitude, double longtitude){
 		
-		AddProximityAlert(action, plugin, latitude, longtitude, defaultRadius);
+		addProximityAlert(action, plugin, latitude, longtitude, defaultRadius);
+		
+		
 	}
 	
 	
-	public void AddProximityAlert(String action, PluginInfo plugin, double latitude, double longtitude, float radius){
+	/**
+	 * add a Proximity Alert. uses a default expiration for the alert of -1, 
+	 * or never expires
+	 * @param action
+	 * @param plugin
+	 * @param latitude
+	 * @param longtitude
+	 * @param radius
+	 */
+	public void addProximityAlert(String action, PluginInfo plugin, double latitude, double longtitude, float radius){
 		
-		AddProximityAlert(action, plugin, latitude, longtitude, radius, defaultExpiration);
+		addProximityAlert(action, plugin, latitude, longtitude, radius, defaultExpiration);
 	}
 	
 	
-	/*
-	 * add a proximity alert that will directly call the plug in
-	*/
-	public void AddProximityAlert(String action, PluginInfo plugin, double latitude, double longtitude, float radius, long alertExpiration){
+	/**  add a proximity alert that will directly call the plug in
+	 * @param action
+	 * @param plugin
+	 * @param latitude
+	 * @param longtitude
+	 * @param radius
+	 * @param alertExpiration
+	 */
+	public void addProximityAlert(String action, PluginInfo plugin, double latitude, double longtitude, float radius, long alertExpiration){
 		
 		//opportunity to change defaults
 		defaultExpiration = alertExpiration;
 		defaultRadius = radius;
 		
-    	locationManager.addProximityAlert(latitude, longtitude, radius, alertExpiration, GetPendingIntent(action, plugin));
+    	locationManager.addProximityAlert(latitude, longtitude, radius, alertExpiration, getPendingIntent(action, plugin));
 	}
 	
 	
-	public void CancelProximityAlert(String action, PluginInfo plugin, double latitude, double longtitude, float radius){
+	/**Cancel a proximity alert. all data used to create an alert must also be provided to cancel it.  
+	 * @param action
+	 * @param plugin
+	 * @param latitude
+	 * @param longtitude
+	 * @param radius
+	 */
+	public void cancelProximityAlert(String action, PluginInfo plugin, double latitude, double longtitude, float radius){
 		
-		locationManager.removeProximityAlert(GetPendingIntent(action, plugin));
+		locationManager.removeProximityAlert(getPendingIntent(action, plugin));
 	}
 
 	/*
 	 * need to ensure we use identical PendingIntent's when adding and removing
 	*/
-	private PendingIntent GetPendingIntent(String action, PluginInfo plugin){
+	private PendingIntent getPendingIntent(String action, PluginInfo plugin){
 		
 		Intent intent = new Intent(action);
 		intent.setComponent(new ComponentName(plugin.packageName, plugin.activityName));
