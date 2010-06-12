@@ -10,14 +10,15 @@ android:text="... acquiring location" ></EditText>
 <TextView android:text="Longtitude: "  android:layout_height="wrap_content" android:layout_width="wrap_content"></TextView>
 <EditText android:id="@+id/Longtitude" android:layout_height="wrap_content" android:layout_width="fill_parent" 
 android:text="... acquiring location" ></EditText>
-
-
+ 
 <TextView android:text="Radius in Meters" android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 <EditText android:text="@+id/EditText01" android:id="@+id/EditText01" android:layout_width="wrap_content" android:layout_height="wrap_content"></EditText>
-
 
 <TextView android:text="Plugin" android:id="@+id/TextView02" android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
 <Spinner android:layout_width="fill_parent" android:id="@+id/Spinner01" android:layout_height="wrap_content"></Spinner>
 
 <Button android:text="@+id/Button01" android:id="@+id/Button01" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+
+
+
 </LinearLayout>

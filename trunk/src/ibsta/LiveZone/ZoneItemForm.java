@@ -1,5 +1,6 @@
 package ibsta.LiveZone;
 
+import ibsta.LiveZone.Controls.PluginDialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
@@ -7,7 +8,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
-public class ZoneItem extends Activity 
+public class ZoneItemForm extends Activity 
 {
 	static final int DIALOG_PLUGIN_SELECT_ID = 0;
 	//Dialog pluginDialog;
@@ -35,7 +36,7 @@ public class ZoneItem extends Activity
 		switch (id) {
 		
 			default:
-				selDlg = new SelectPluginDialog(this);
+				selDlg = new PluginDialog(this);
 				break;
 		}
 		

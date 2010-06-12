@@ -2,5 +2,5 @@
 <resources>
     <string name="enter_intent_filter">ibsta.LiveZone.ProximityAlert</string>
     <string name="app_name">LiveZone</string>
-	<string name="exit_intent_filter">ibsta.LiveZone.ProximityAlert</string>
+	<string name="exit_intent_filter">ibsta.LiveZone.ZONE_EXITED</string>
 </resources>
