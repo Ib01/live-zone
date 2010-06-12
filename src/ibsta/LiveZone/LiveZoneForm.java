@@ -1,24 +1,28 @@
 package ibsta.LiveZone;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class LiveZone extends Activity {
+public class LiveZoneForm extends Activity {
 	
 	private LocationManager m_LocationManager;
 	Location m_bestLocation = null;
@@ -36,7 +40,15 @@ public class LiveZone extends Activity {
 	    button.setOnClickListener(mSetProximityClick);
 	    
 	    
+	   /* ArrayList<String> al = new ArrayList<String>();
+		al.add(this.getResources().getText(R.string.enter_intent_filter).toString());
+		al.add(this.getResources().getText(R.string.exit_intent_filter).toString());
+		PluginManager pm = new PluginManager(this, al);
+	    PluginListAdapter pa = new PluginListAdapter(this, pm.getPlugins());
 	    
+	    ListView lv = (ListView)findViewById(R.id.ListView01);
+	    lv.setAdapter(pa);
+	    */
 	    
         
 	    //set up location objects
@@ -61,6 +73,97 @@ public class LiveZone extends Activity {
 		
          
     }
+    
+    
+    
+    
+    
+    
+    
+   /* 
+    public class PluginListAdapter extends ArrayAdapter<PluginInfo> {
+		
+		private static final int LIST_ITEM_LAYOUT_ID = R.layout.testlistitem;
+		private static final int LIST_ITEM_IMAGE_ID = R.id.pluginListItemImage;
+		private static final int LIST_ITEM_TEXT_ID = R.id.pluginListItemText;
+		
+	    public PluginListAdapter(Activity activity, List<PluginInfo> plugins) {
+	        super(activity, 0, plugins);
+	    }
+
+	    @Override
+	    public View getView(int position, View convertView, ViewGroup parent) {
+	        
+	    	Activity activity = (Activity) getContext();
+	        LayoutInflater inflater = activity.getLayoutInflater();
+
+	        // Inflate the views from XML
+	        View rowView = inflater.inflate(LIST_ITEM_LAYOUT_ID, null);
+	        PluginInfo pluginInfo = getItem(position);
+
+	        // Load the image and set it on the ImageView
+	        ImageView imageView = (ImageView) rowView.findViewById(LIST_ITEM_IMAGE_ID);
+	        
+	        if(pluginInfo.icon == null)
+	        	imageView.setImageResource(R.drawable.icon); //set a default image if we the plugin doesn't have one 
+	        else
+	        	imageView.setImageDrawable(pluginInfo.icon);
+	        
+	        // Set the text on the TextView
+	        TextView textView = (TextView) rowView.findViewById(LIST_ITEM_TEXT_ID);
+	        textView.setText(pluginInfo.label);
+	        
+	        Button bt = (Button) rowView.findViewById(R.id.Button01);
+	        bt.setOnClickListener(
+	        		 new OnClickListener() {
+	        			    public void onClick(View v) {
+	        			    	Toast.makeText(
+	        							getApplicationContext(), "here", Toast.LENGTH_SHORT).show();    
+	        			    }
+	        		 }
+	        );
+	        
+	        
+	        
+
+	        rowView.setTag(pluginInfo.label);
+	        
+	        return rowView;
+	    }
+
+	}
+	
+    
+    
+    
+    */
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     /*
     public void GetCurrentLocation(){

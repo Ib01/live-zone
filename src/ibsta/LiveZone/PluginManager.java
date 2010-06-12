@@ -10,7 +10,7 @@ import android.content.pm.ResolveInfo;
 /**
  * @author ib
  * 
- * manages addin information.  gets information on services and and activities that implement 
+ * manages addin information.  gets information on services and  activities that implement 
  * all of the intent actions provided to the constructor 
  */
 public class PluginManager
@@ -48,10 +48,12 @@ public class PluginManager
 	
 	public ArrayList<PluginInfo> getPlugins()
 	{
-		List<ResolveInfo> rinfs = queryPackageManager(ACTIVITY_COMPONENT_TYPE);
+		return mockPlugins();
+		
+		/*List<ResolveInfo> rinfs = queryPackageManager(ACTIVITY_COMPONENT_TYPE);
 		rinfs.addAll(queryPackageManager(SERVICE_COMPONENT_TYPE));
 		
-		return parseQueryResults(rinfs);
+		return parseQueryResults(rinfs);*/
 	}
 	
 	
@@ -152,6 +154,24 @@ public class PluginManager
 		return retainList;
 	}
 	
+	
+	
+	
+
+	// DELETE THIS
+	private ArrayList<PluginInfo> mockPlugins(){
+		
+		ArrayList<PluginInfo> pl = new ArrayList<PluginInfo>(); 
+		
+		pl.add(new PluginInfo("","","item 1", null));
+		pl.add(new PluginInfo("","","item 2", null));
+		pl.add(new PluginInfo("","","item 3", null));
+		pl.add(new PluginInfo("","","item 4", null));
+		pl.add(new PluginInfo("","","item 5", null));
+		pl.add(new PluginInfo("","","item 6", null));
+		
+		return pl;
+	}
 	
 	
 
