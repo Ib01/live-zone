@@ -1,8 +1,9 @@
-package ibsta.LiveZone.Controls;
+package ibsta.LiveZone.UI.Controls;
 
-import ibsta.LiveZone.PluginInfo;
-import ibsta.LiveZone.PluginManager;
 import ibsta.LiveZone.R;
+import ibsta.LiveZone.Data.PluginInfo;
+import ibsta.LiveZone.Data.PluginManager;
+
 import java.util.ArrayList;
 import java.util.List;
 import android.app.Activity;

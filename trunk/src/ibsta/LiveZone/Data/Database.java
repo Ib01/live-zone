@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.util.Log;
 
 
-public class DBAdapter {
+public class Database {
 	
 	  private SQLiteDatabase db;
 	  private final Context context;
@@ -28,12 +28,12 @@ public class DBAdapter {
 	  
 
 	  
-	  public DBAdapter(Context _context) {
+	  public Database(Context _context) {
 	    context = _context;
 	    dbHelper = new myDbHelper(context, DATABASE_NAME, null, DATABASE_VERSION);
 	  }
 	  
-	  public DBAdapter open() throws SQLException {
+	  public Database open() throws SQLException {
 	    db = dbHelper.getWritableDatabase();
 	    return this;
 	  }

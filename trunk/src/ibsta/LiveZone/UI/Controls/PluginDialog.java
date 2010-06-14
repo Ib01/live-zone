@@ -1,4 +1,4 @@
-package ibsta.LiveZone.Controls;
+package ibsta.LiveZone.UI.Controls;
 
 import ibsta.LiveZone.R;
 import android.app.Activity;
