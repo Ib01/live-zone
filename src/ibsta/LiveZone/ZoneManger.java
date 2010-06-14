@@ -1,5 +1,6 @@
 package ibsta.LiveZone;
 
+import ibsta.LiveZone.Data.PluginInfo;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
