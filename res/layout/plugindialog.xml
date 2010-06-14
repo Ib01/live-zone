@@ -6,11 +6,13 @@
               android:layout_height="fill_parent"
               android:padding="10dp">
 
+	
 	<ibsta.LiveZone.UI.Controls.PluginListView 
 	android:id="@+id/pluginDialogList"  
 	android:layout_width="fill_parent"
-	android:layout_height="150px">
+	android:layout_height="wrap_content">
       </ibsta.LiveZone.UI.Controls.PluginListView>
+			
 
 
 </LinearLayout>
