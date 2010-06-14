@@ -1,12 +1,11 @@
 package ibsta.LiveZone.UI.Controls;
 
 import ibsta.LiveZone.R;
-import android.app.Activity;
+import ibsta.LiveZone.Data.PluginInfo;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 //Class is very tightly bound to ZoneItem. 
@@ -16,6 +15,7 @@ public class PluginDialog extends Dialog{
 	private static final String DIALOG_TITLE = "Select a Live Zone plugin";
 	private static final int DIALOG_LAYOUT_ID = R.layout.plugindialog;
 	private static final int DIALOG_LIST_ID = R.id.pluginDialogList;
+	private OnPluginSelectedListener onPluginSelectedListener = null;
 	
 	public PluginDialog(Context context)  {
 		
@@ -32,22 +32,43 @@ public class PluginDialog extends Dialog{
 	
 	//PluginSelect
 	private OnItemClickListener pluginListItemClickListener = new OnItemClickListener() {    
-		
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		
-			Toast.makeText(
-					getContext().getApplicationContext(), (String)view.getTag(), Toast.LENGTH_SHORT).show();    
-				
-			//SelectedPlugin
+			
+				onPluginSelected((PluginInfo)view.getTag());				
 				dismiss();
-			}  
+		}
 		
-		}; 
+	}; 
 	
 	
+	
+	private void onPluginSelected(PluginInfo selectedPlugin){
+
+		if(onPluginSelectedListener != null) {
+			onPluginSelectedListener.onPluginSelected(selectedPlugin);
+		}
+	}
+	
+	// Allows the user to set an Listener and react to the event
+	public void setOnPluginSelectedListener(OnPluginSelectedListener listener) {
+		onPluginSelectedListener = listener;
+	}
+	
+	public interface OnPluginSelectedListener {
+		public abstract void onPluginSelected(PluginInfo selectedPlugin);
+	}
 	
 
 }
+
+
+
+
+
+
+
+
+
 
 	
 	

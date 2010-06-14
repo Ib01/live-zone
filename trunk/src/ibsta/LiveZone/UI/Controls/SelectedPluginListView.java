@@ -6,7 +6,6 @@ import ibsta.LiveZone.Data.PluginManager;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -17,19 +16,19 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class PluginListView extends ListView {
+public class SelectedPluginListView extends ListView {
 	
-	public PluginListView(Context context) {
+	public SelectedPluginListView(Context context) {
 		super(context);
 		InitialiseControl(context);
 	}
 	
-	public PluginListView(Context context, AttributeSet attrs) {
+	public SelectedPluginListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		InitialiseControl(context);
 	}
 
-	public PluginListView(Context context, AttributeSet attrs,
+	public SelectedPluginListView(Context context, AttributeSet attrs,
 			int defStyle) {
 		super(context, attrs, defStyle);
 		InitialiseControl(context);
@@ -37,21 +36,22 @@ public class PluginListView extends ListView {
 
 	private void InitialiseControl(Context context)
 	{
-		ArrayList<String> al = new ArrayList<String>();
-		al.add(context.getResources().getText(R.string.enter_intent_filter).toString());
-		al.add(context.getResources().getText(R.string.exit_intent_filter).toString());
-		PluginManager pm = new PluginManager(context, al);
 		
-		PluginListAdapter pa = new PluginListAdapter(context, pm.getPlugins());
-		
+		//start with empty data?
+		PluginListAdapter pa = new PluginListAdapter(context, new ArrayList<PluginInfo>());
 		this.setAdapter(pa);
+	}
+	
+	public void AddPlugin(PluginInfo plugin)
+	{
+		((PluginListAdapter)this.getAdapter()).add(plugin);
 	}
 	
 	
 	
 	public class PluginListAdapter extends ArrayAdapter<PluginInfo> {
 		
-		private static final int LIST_ITEM_LAYOUT_ID = R.layout.pluginlistitem;
+		private static final int LIST_ITEM_LAYOUT_ID = R.layout.selectedpluginlistitem;
 		private static final int LIST_ITEM_IMAGE_ID = R.id.pluginListItemImage;
 		private static final int LIST_ITEM_TEXT_ID = R.id.pluginListItemText;
 		
@@ -66,12 +66,9 @@ public class PluginListView extends ListView {
 	    	 LayoutInflater inflater =
 	                (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-
-	        // Inflate the views from XML
 	        View rowView = inflater.inflate(LIST_ITEM_LAYOUT_ID, null);
 	        PluginInfo pluginInfo = getItem(position);
 
-	        // Load the image and set it on the ImageView
 	        ImageView imageView = (ImageView) rowView.findViewById(LIST_ITEM_IMAGE_ID);
 	        
 	        if(pluginInfo.icon == null)
@@ -79,13 +76,14 @@ public class PluginListView extends ListView {
 	        else
 	        	imageView.setImageDrawable(pluginInfo.icon);
 	        
-	        // Set the text on the TextView
 	        TextView textView = (TextView) rowView.findViewById(LIST_ITEM_TEXT_ID);
 	        textView.setText(pluginInfo.label);
 
 	        rowView.setTag(pluginInfo);
 	        
 	        return rowView;
+	        
+	        
 	    }
 
 	}

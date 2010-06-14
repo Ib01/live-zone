@@ -1,15 +1,18 @@
 package ibsta.LiveZone.UI;
 
 import ibsta.LiveZone.R;
-import ibsta.LiveZone.R.id;
-import ibsta.LiveZone.R.layout;
+import ibsta.LiveZone.Data.PluginInfo;
 import ibsta.LiveZone.UI.Controls.PluginDialog;
+import ibsta.LiveZone.UI.Controls.SelectedPluginListView;
+import ibsta.LiveZone.UI.Controls.PluginDialog.OnPluginSelectedListener;
 import android.app.Activity;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 public class ZoneItem extends Activity 
 {
@@ -34,12 +37,13 @@ public class ZoneItem extends Activity
 	//called by the api when we call showDialog
 	protected Dialog onCreateDialog(int id) {    
 		
-		Dialog selDlg;
+		PluginDialog selDlg;
 		
 		switch (id) {
 		
 			default:
 				selDlg = new PluginDialog(this);
+				selDlg.setOnPluginSelectedListener(new PluginSelectedListener());
 				break;
 		}
 		
@@ -47,7 +51,30 @@ public class ZoneItem extends Activity
 	}
 	
 	
+
 	
+	
+	
+	private class PluginSelectedListener implements OnPluginSelectedListener{
+
+		public void onPluginSelected(PluginInfo selectedPlugin) {
+
+			Toast.makeText(
+					getApplicationContext(), selectedPlugin.label, Toast.LENGTH_SHORT).show();    
+			
+			
+			SelectedPluginListView lv = (SelectedPluginListView)findViewById(R.id.selectedPluginListView);
+			lv.AddPlugin(selectedPlugin); 
+			
+
+			
+			
+		}
+		
+	}
+	
+	
+
 	
 	
 }
