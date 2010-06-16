@@ -4,27 +4,21 @@ import ibsta.LiveZone.R;
 import ibsta.LiveZone.ZoneManger;
 import ibsta.LiveZone.Data.PluginInfo;
 import ibsta.LiveZone.Data.PluginManager;
-import ibsta.LiveZone.R.id;
-import ibsta.LiveZone.R.layout;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -81,116 +75,8 @@ public class LiveZone extends Activity {
          
     }
     
+   
     
-    
-    
-    
-    
-    
-   /* 
-    public class PluginListAdapter extends ArrayAdapter<PluginInfo> {
-		
-		private static final int LIST_ITEM_LAYOUT_ID = R.layout.testlistitem;
-		private static final int LIST_ITEM_IMAGE_ID = R.id.pluginListItemImage;
-		private static final int LIST_ITEM_TEXT_ID = R.id.pluginListItemText;
-		
-	    public PluginListAdapter(Activity activity, List<PluginInfo> plugins) {
-	        super(activity, 0, plugins);
-	    }
-
-	    @Override
-	    public View getView(int position, View convertView, ViewGroup parent) {
-	        
-	    	Activity activity = (Activity) getContext();
-	        LayoutInflater inflater = activity.getLayoutInflater();
-
-	        // Inflate the views from XML
-	        View rowView = inflater.inflate(LIST_ITEM_LAYOUT_ID, null);
-	        PluginInfo pluginInfo = getItem(position);
-
-	        // Load the image and set it on the ImageView
-	        ImageView imageView = (ImageView) rowView.findViewById(LIST_ITEM_IMAGE_ID);
-	        
-	        if(pluginInfo.icon == null)
-	        	imageView.setImageResource(R.drawable.icon); //set a default image if we the plugin doesn't have one 
-	        else
-	        	imageView.setImageDrawable(pluginInfo.icon);
-	        
-	        // Set the text on the TextView
-	        TextView textView = (TextView) rowView.findViewById(LIST_ITEM_TEXT_ID);
-	        textView.setText(pluginInfo.label);
-	        
-	        Button bt = (Button) rowView.findViewById(R.id.Button01);
-	        bt.setOnClickListener(
-	        		 new OnClickListener() {
-	        			    public void onClick(View v) {
-	        			    	Toast.makeText(
-	        							getApplicationContext(), "here", Toast.LENGTH_SHORT).show();    
-	        			    }
-	        		 }
-	        );
-	        
-	        
-	        
-
-	        rowView.setTag(pluginInfo.label);
-	        
-	        return rowView;
-	    }
-
-	}
-	
-    
-    
-    
-    */
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    /*
-    public void GetCurrentLocation(){
-        //get best provider
-        Criteria crit = new Criteria();
-        crit.setAccuracy(Criteria.ACCURACY_FINE);
-        String prov = m_LocationManager.getBestProvider(crit, true);
-        
-        if(prov == null)
-        {
-        	Toast.makeText(getApplicationContext(), "NO location providers available", Toast.LENGTH_LONG).show();	
-        	return;
-        }
-        	
-        
-        //get location with best provider. COULD THROW ERROR?
-        LocationListener locListener = new LocationReceiver();
-        m_LocationManager.requestLocationUpdates(prov, 0, 0, locListener);
-    }
-    */
     
     
     private OnClickListener mSetProximityClick = new OnClickListener() {
@@ -202,9 +88,6 @@ public class LiveZone extends Activity {
 	    	
 	    	ZoneManger zm = new ZoneManger(getApplicationContext());
 	    	zm.addProximityAlert("ibsta.LiveZone.ProximityAlert", plins.get(0), 149.155421, -35.239395, 100.0f);
-	    	
-	    	
-	    	
 	    
 	    	TextView txtView = (TextView) findViewById(R.id.AvailableProviders);
 			txtView.setText(String.format("%d", plins.size()));
@@ -227,28 +110,12 @@ public class LiveZone extends Activity {
 			getApplicationContext().startActivity(i);
 			*/
 			
-			
-			
-			
 	    	//SetProximityAlert();
 	    	
 	    }
 	};
 	
 	
-	
-	
-	
-	
-	
-
-	
-    
-    
-    
-	
-
-    
 	 public class ProximityIntentReceiver extends BroadcastReceiver{
 	    	int activateCount = 0;
 	    	
@@ -268,8 +135,32 @@ public class LiveZone extends Activity {
 	    	
 	    }
     
+	 
+	 
+	 
+	 
+	 
+	 
+	 
+	 
     
-    
+	 public void GetCurrentLocation(){
+	        //get best provider
+	        Criteria crit = new Criteria();
+	        crit.setAccuracy(Criteria.ACCURACY_FINE);
+	        String prov = m_LocationManager.getBestProvider(crit, true);
+	        
+	        if(prov == null)
+	        {
+	        	Toast.makeText(getApplicationContext(), "NO location providers available", Toast.LENGTH_LONG).show();	
+	        	return;
+	        }
+	        	
+	        
+	        //get location with best provider. COULD THROW ERROR?
+	        LocationListener locListener = new LocationReceiver();
+	        m_LocationManager.requestLocationUpdates(prov, 0, 0, locListener);
+	    }
 
     
 	
@@ -277,7 +168,7 @@ public class LiveZone extends Activity {
    * && Location and Proximity Listeners  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
    * */
 	
-    /*public class LocationReceiver implements LocationListener {
+    public class LocationReceiver implements LocationListener {
 
     	int m_attempts = 0;
     	int m_maxAttempts = 10;
@@ -321,7 +212,7 @@ public class LiveZone extends Activity {
     	}
 
     } // end LocationHandler
-    */
+    
     
     
    
