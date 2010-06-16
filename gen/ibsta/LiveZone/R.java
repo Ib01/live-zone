@@ -14,27 +14,33 @@ public final class R {
         public static final int icon=0x7f020000;
     }
     public static final class id {
-        public static final int Accuracy=0x7f05000a;
         public static final int AvailableProviders=0x7f050002;
-        public static final int EditText01=0x7f050007;
-        public static final int Latitude=0x7f050005;
+        public static final int Button01=0x7f05000e;
+        public static final int CheckBox01=0x7f05000a;
+        public static final int CheckBox02=0x7f050009;
+        public static final int EditText01=0x7f05000d;
+        public static final int Latitude=0x7f05000b;
         public static final int LinearLayout01=0x7f050000;
-        public static final int Longtitude=0x7f050008;
-        public static final int Provider=0x7f050004;
-        public static final int ProximityAlert=0x7f05000b;
-        public static final int Spinner01=0x7f05000d;
-        public static final int StopProximity=0x7f05000c;
-        public static final int TextView01=0x7f050003;
-        public static final int TextView02=0x7f050009;
-        public static final int TextView03=0x7f050006;
+        public static final int ListView01=0x7f050004;
+        public static final int ProximityAlert=0x7f050003;
+        public static final int TextView01=0x7f05000c;
         public static final int asdf=0x7f050001;
+        public static final int layout_root=0x7f050005;
+        public static final int pluginDialogList=0x7f050006;
+        public static final int pluginListItemImage=0x7f050007;
+        public static final int pluginListItemText=0x7f050008;
+        public static final int selectedPluginListView=0x7f05000f;
     }
     public static final class layout {
         public static final int main=0x7f030000;
-        public static final int zoneitem=0x7f030001;
+        public static final int plugindialog=0x7f030001;
+        public static final int pluginlistitem=0x7f030002;
+        public static final int selectedpluginlistitem=0x7f030003;
+        public static final int zoneitem=0x7f030004;
     }
     public static final class string {
         public static final int app_name=0x7f040001;
-        public static final int hello=0x7f040000;
+        public static final int enter_intent_filter=0x7f040000;
+        public static final int exit_intent_filter=0x7f040002;
     }
 }
