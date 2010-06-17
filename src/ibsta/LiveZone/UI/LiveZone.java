@@ -11,9 +11,7 @@ import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
@@ -116,7 +114,7 @@ public class LiveZone extends Activity {
 	};
 	
 	
-	 public class ProximityIntentReceiver extends BroadcastReceiver{
+	 /*public class ProximityIntentReceiver extends BroadcastReceiver{
 	    	int activateCount = 0;
 	    	
 			@Override
@@ -134,7 +132,7 @@ public class LiveZone extends Activity {
 			}
 	    	
 	    }
-    
+    */
 	 
 	 
 	 
@@ -143,7 +141,7 @@ public class LiveZone extends Activity {
 	 
 	 
 	 
-    
+    /*
 	 public void GetCurrentLocation(){
 	        //get best provider
 	        Criteria crit = new Criteria();
@@ -161,14 +159,14 @@ public class LiveZone extends Activity {
 	        LocationListener locListener = new LocationReceiver();
 	        m_LocationManager.requestLocationUpdates(prov, 0, 0, locListener);
 	    }
-
+*/
     
 	
    /*
    * && Location and Proximity Listeners  &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
    * */
 	
-    public class LocationReceiver implements LocationListener {
+   /* public class LocationReceiver implements LocationListener {
 
     	int m_attempts = 0;
     	int m_maxAttempts = 10;
@@ -214,7 +212,7 @@ public class LiveZone extends Activity {
     } // end LocationHandler
     
     
-    
+    */
    
     
 }
