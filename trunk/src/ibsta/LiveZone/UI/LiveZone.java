@@ -7,6 +7,8 @@ import ibsta.LiveZone.Data.PluginManager;
 
 import java.util.ArrayList;
 
+import com.google.android.maps.MapView;
+
 import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -30,6 +32,7 @@ public class LiveZone extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         
+    	
     	//show layout
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
