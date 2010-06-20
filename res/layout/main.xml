@@ -11,7 +11,6 @@ xmlns:android="http://schemas.android.com/apk/res/android" android:isScrollConta
 <Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="Set Proximity Alert" android:id="@+id/ProximityAlert"></Button>
 
 
-<com.google.android.maps.MapView></com.google.android.maps.MapView>
 
 <ListView 
 android:id="@+id/ListView01" 

@@ -1,45 +1,44 @@
 package ibsta.LiveZone.UI;
 
+import ibsta.LiveZone.LocationManager;
 import ibsta.LiveZone.R;
-import ibsta.LiveZone.ZoneManger;
-import ibsta.LiveZone.Data.PluginInfo;
-import ibsta.LiveZone.Data.PluginManager;
-
-import java.util.ArrayList;
-
-import com.google.android.maps.MapView;
-
+import ibsta.LiveZone.LocationManager.OnSearchCompleteListener;
 import android.app.Activity;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
 public class LiveZone extends Activity {
 	
-	private LocationManager m_LocationManager;
+	//private LocationManager m_LocationManager;
 	Location m_bestLocation = null;
+	LocationManager lm;
+	
+	OnSearchCompleteListener listner = new OnSearchCompleteListener(){
+		public void onSearchComplete(Location location){
+			Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_LONG).show();
+			
+			lm.removeUpdates();
+		}
+	};
 	
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         
-    	
-    	//show layout
     	super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
         //UI event handlers
         Button button = (Button)findViewById(R.id.ProximityAlert);
 	    button.setOnClickListener(mSetProximityClick);
+	    
+	    
+	   
 	    
 	    
 	   /* ArrayList<String> al = new ArrayList<String>();
@@ -54,7 +53,7 @@ public class LiveZone extends Activity {
 	    
         
 	    //set up location objects
-        m_LocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
+        //m_LocationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
         
         
        
@@ -83,7 +82,11 @@ public class LiveZone extends Activity {
     private OnClickListener mSetProximityClick = new OnClickListener() {
 	    public void onClick(View v) {
 	    	
-	    	PluginManager pm = new PluginManager(getApplicationContext(), "ibsta.LiveZone.ProximityAlert");
+	    	
+	    	
+	    	
+	    	
+	    	/*PluginManager pm = new PluginManager(getApplicationContext(), "ibsta.LiveZone.ProximityAlert");
 	    	ArrayList<PluginInfo> plins = pm.getActivityPlugins();
 	    	
 	    	
@@ -91,7 +94,7 @@ public class LiveZone extends Activity {
 	    	zm.addProximityAlert("ibsta.LiveZone.ProximityAlert", plins.get(0), 149.155421, -35.239395, 100.0f);
 	    
 	    	TextView txtView = (TextView) findViewById(R.id.AvailableProviders);
-			txtView.setText(String.format("%d", plins.size()));
+			txtView.setText(String.format("%d", plins.size()));*/
 	    	
 	    	
 	    	/*
