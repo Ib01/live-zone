@@ -16,6 +16,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -77,7 +80,19 @@ public class ZoneItem extends Activity
 			
 			
 			SelectedPluginListView lv = (SelectedPluginListView)findViewById(R.id.selectedPluginListView);
-			lv.AddPlugin(selectedPlugin); 			
+			lv.AddPlugin(selectedPlugin); 	
+			
+			/*LinearLayout ll = (LinearLayout)findViewById(R.id.ActionPanel);
+			TextView tv = new TextView(getApplicationContext());
+			tv.setText("TESTING");
+			ll.addView(tv);
+			//ll.invalidate();
+			
+			
+			ScrollView zil = (ScrollView)findViewById(R.id.ZoneItemLayout);
+			zil.invalidate();*/
+			
+			
 		}
 		
 	}
