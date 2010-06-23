@@ -170,6 +170,12 @@ public class PluginManager
 		pl.add(new PluginInfo("","","item 4", null));
 		pl.add(new PluginInfo("","","item 5", null));
 		pl.add(new PluginInfo("","","item 6", null));
+		pl.add(new PluginInfo("","","item 7", null));
+		pl.add(new PluginInfo("","","item 8", null));
+		pl.add(new PluginInfo("","","item 9", null));
+		pl.add(new PluginInfo("","","item 10", null));
+		pl.add(new PluginInfo("","","item 11", null));
+		pl.add(new PluginInfo("","","item 12", null));
 		
 		return pl;
 	}

@@ -8,6 +8,8 @@
 
 	
 	<ibsta.LiveZone.UI.Controls.PluginListView 
+	android:scrollingCache="false"
+			android:fadingEdge="none"
 	android:id="@+id/pluginDialogList"  
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content">
