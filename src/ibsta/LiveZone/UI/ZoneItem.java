@@ -5,8 +5,8 @@ import ibsta.LiveZone.LocationManager;
 import ibsta.LiveZone.R;
 import ibsta.LiveZone.Data.PluginInfo;
 import ibsta.LiveZone.LocationManager.OnSearchCompleteListener;
+import ibsta.LiveZone.UI.Controls.ActionPanel;
 import ibsta.LiveZone.UI.Controls.PluginDialog;
-import ibsta.LiveZone.UI.Controls.SelectedPluginListView;
 import ibsta.LiveZone.UI.Controls.PluginDialog.OnPluginSelectedListener;
 import android.app.Activity;
 import android.app.Dialog;
@@ -16,9 +16,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -79,20 +76,9 @@ public class ZoneItem extends Activity
 					getApplicationContext(), selectedPlugin.label, Toast.LENGTH_SHORT).show();    
 			
 			
-			SelectedPluginListView lv = (SelectedPluginListView)findViewById(R.id.selectedPluginListView);
-			lv.AddPlugin(selectedPlugin); 	
-			
-			/*LinearLayout ll = (LinearLayout)findViewById(R.id.ActionPanel);
-			TextView tv = new TextView(getApplicationContext());
-			tv.setText("TESTING");
-			ll.addView(tv);
-			//ll.invalidate();
-			
-			
-			ScrollView zil = (ScrollView)findViewById(R.id.ZoneItemLayout);
-			zil.invalidate();*/
-			
-			
+			ActionPanel lv = (ActionPanel)findViewById(R.id.selectedPluginPanel);
+			lv.AddPlugin(selectedPlugin);
+		 	
 		}
 		
 	}

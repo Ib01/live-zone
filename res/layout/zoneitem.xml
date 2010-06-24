@@ -25,13 +25,12 @@ android:layout_height="fill_parent">
 	<Button android:text="@+id/Button01" android:id="@+id/Button01"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
 
-	<ibsta.LiveZone.UI.Controls.SelectedPluginListView
-		 	android:scrollingCache="false"
-			android:fadingEdge="none"
+		<ibsta.LiveZone.UI.Controls.ActionPanel
+			android:orientation="vertical"
 			android:layout_height="fill_parent" 
 			android:layout_width="fill_parent"
-			android:id="@+id/selectedPluginListView">
-		</ibsta.LiveZone.UI.Controls.SelectedPluginListView>
+			android:id="@+id/selectedPluginPanel">
+		</ibsta.LiveZone.UI.Controls.ActionPanel>
 
 	<!--<LinearLayout
 	android:id="@+id/ActionPanel"
