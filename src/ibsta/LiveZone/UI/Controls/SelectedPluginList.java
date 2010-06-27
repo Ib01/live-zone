@@ -18,17 +18,17 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class ActionPanel extends LinearLayout {
+public class SelectedPluginList extends LinearLayout {
 
 	PluginListAdapter adapter;
-	ActionPanel panel;
+	SelectedPluginList panel;
 	
-	public ActionPanel(Context context) {
+	public SelectedPluginList(Context context) {
 		super(context);
 		initialise(context);
 	}
 
-	public ActionPanel(Context context, AttributeSet attrs) {
+	public SelectedPluginList(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		initialise(context);
 	}
@@ -45,7 +45,15 @@ public class ActionPanel extends LinearLayout {
 		this.addView(v);
 	}
 	
-	
+	public ArrayList<PluginInfo> GetPlugins(){
+		ArrayList<PluginInfo> plugins = new ArrayList<PluginInfo>();
+		
+		for(int i = 0; i < adapter.getCount(); i++){
+			plugins.add(adapter.getItem(i));
+		}
+			
+		return plugins;
+	}
 
 	
 	
@@ -60,7 +68,6 @@ public class ActionPanel extends LinearLayout {
 		
 	    public PluginListAdapter(Context activity, List<PluginInfo> plugins) {
 	        super(activity, 0, plugins);
-	        
 	    }
 
 	    @Override
@@ -86,12 +93,12 @@ public class ActionPanel extends LinearLayout {
 	        textView.setText(pluginInfo.label);
 
 	        Button rem = (Button) rowView.findViewById(R.id.selectedPluginRemoveButton);
-	        rem.setTag(position);
+	        //rem.setTag(pluginInfo);
 	        rem.setOnClickListener(new RemovePluginClickListener());
 	        
 	        
 	        //set an id for the row view
-	        rowView.setTag(position);
+	        rowView.setTag(pluginInfo);
 	        
 	        return rowView;
 	        
@@ -103,22 +110,12 @@ public class ActionPanel extends LinearLayout {
 	private class RemovePluginClickListener implements OnClickListener{
 		 public void onClick(View v) {
 		 			 
-			 int index = ((Integer)v.getTag()).intValue();
+			 PluginInfo plin = (PluginInfo)((LinearLayout)v.getParent()).getTag();
 			 
-			 PluginInfo p = adapter.getItem(index);
-			 adapter.remove(p);
+			 View vw = panel.findViewWithTag(plin);
+			 panel.removeView(vw);
 			 
-			 View h = panel.findViewWithTag(index);
-			 panel.removeView(h);
-
-			 //v.getParent()
-			 
-			//ad.remove(object);
-				//ad.add(object);
-				//ad.getItem(position);
-				//this.findViewWithTag(tag);
-				//this.removeView(view);
-				
+			 adapter.remove(plin);
 		 }
 	}
 	

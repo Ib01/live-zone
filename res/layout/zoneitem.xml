@@ -1,55 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView 
-android:id="@+id/ZoneItemLayout" 
-xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="fill_parent" 
-android:layout_height="fill_parent">
+<ScrollView android:id="@+id/ZoneItemLayout"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
 
-<LinearLayout
-	android:scrollbars="vertical"
-	android:paddingBottom="10px" 
-	android:layout_width="fill_parent" 
-	android:layout_height="fill_parent"
-	android:orientation="vertical">
 
-	<TextView android:text="Location" android:layout_height="wrap_content"
-		android:layout_width="wrap_content"></TextView>
-	<EditText android:id="@+id/Location" android:layout_height="wrap_content"
-		android:layout_width="fill_parent" android:text="... acquiring location"></EditText>
+	<LinearLayout android:scrollbars="vertical"
+		android:paddingBottom="10px" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:orientation="vertical">
 
-	<TextView android:text="Radius in Meters" android:id="@+id/TextView01"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"></TextView>
-	<EditText android:text="@+id/EditText01" android:id="@+id/EditText01"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
 
-	<Button android:text="@+id/Button01" android:id="@+id/Button01"
-		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+		<LinearLayout 
+		android:padding="5px"
+		android:layout_margin="10px" android:id="@+id/locationPanel"
+			android:background="@drawable/panelbackground" android:layout_width="fill_parent"
+			android:layout_height="wrap_content" android:orientation="vertical">
 
-		<ibsta.LiveZone.UI.Controls.ActionPanel
-			android:orientation="vertical"
-			android:layout_height="fill_parent" 
-			android:layout_width="fill_parent"
-			android:id="@+id/selectedPluginPanel">
-		</ibsta.LiveZone.UI.Controls.ActionPanel>
+			<TextView android:text="Location" android:textColor="#000000"
+				android:layout_height="wrap_content" android:layout_width="wrap_content"></TextView>
+			<EditText android:id="@+id/Location" android:layout_height="wrap_content"
+				android:layout_width="fill_parent" android:text="... acquiring location"></EditText>
 
-	<!--<LinearLayout
-	android:id="@+id/ActionPanel"
-		android:background="@drawable/panelbackground" 
-		xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="fill_parent" 
-		android:layout_height="wrap_content"
-		android:orientation="vertical">
-
-	<Button android:text="@+id/Button02" android:id="@+id/Button02" 
-		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+			<TextView android:text="Radius in Meters" android:textColor="#000000"
+				android:id="@+id/TextView01" android:layout_width="wrap_content"
+				android:layout_height="wrap_content"></TextView>
+			<EditText android:text="@+id/EditText01" android:id="@+id/EditText01"
+				android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
 
 		</LinearLayout>
-		
-		--><!--<ListView android:scrollingCache="false" android:fadingEdge="none"></ListView>
-	
-	-->
-	
-</LinearLayout>
+
+
+		<ibsta.LiveZone.UI.Controls.ActionPanelList
+			android:padding="5px"
+			android:layout_margin="10px" android:orientation="vertical"
+			android:layout_height="fill_parent" android:layout_width="fill_parent"
+			android:id="@+id/zoneItemActionPanelList">
+		</ibsta.LiveZone.UI.Controls.ActionPanelList>
+
+
+	</LinearLayout>
 
 </ScrollView>
 

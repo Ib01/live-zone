@@ -17,19 +17,19 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class PluginListView extends ListView {
+public class PluginList extends ListView {
 	
-	public PluginListView(Context context) {
+	public PluginList(Context context) {
 		super(context);
 		InitialiseControl(context);
 	}
 	
-	public PluginListView(Context context, AttributeSet attrs) {
+	public PluginList(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		InitialiseControl(context);
 	}
 
-	public PluginListView(Context context, AttributeSet attrs,
+	public PluginList(Context context, AttributeSet attrs,
 			int defStyle) {
 		super(context, attrs, defStyle);
 		InitialiseControl(context);

@@ -2,22 +2,22 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/mainlayout" android:orientation="vertical"
 	android:layout_width="fill_parent" android:layout_height="fill_parent">
-	
-	<!--<com.google.android.maps.MapView
-		android:id="@+id/mapview" 
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent" 
+
+	<!--
+		<com.google.android.maps.MapView android:id="@+id/mapview"
+		android:layout_width="fill_parent" android:layout_height="fill_parent"
 		android:clickable="true"
-		android:apiKey="0gSKbyuUOEXqu1ptsV-K1ECDm0M2G2zfB_6w2Rw" />	
+		android:apiKey="0gSKbyuUOEXqu1ptsV-K1ECDm0M2G2zfB_6w2Rw" />
 	-->
 	
-	 <com.google.android.maps.MapView
-	 			android:clickable="true"
-	 			android:id="@+id/mapview" 
-                 android:layout_width="fill_parent"
-                 android:layout_height="wrap_content"
-                 android:apiKey="0gSKbyuUOEXofoCHwCqRe-hb4cuAMQwmPCfitEg"
-                 />
 
-<Button android:id="@+id/Button01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/mapview" android:text="@+id/Button01"></Button>
+		<com.google.android.maps.MapView android:clickable="true"
+		android:id="@+id/mapview" android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:apiKey="0gSKbyuUOEXofoCHwCqRe-hb4cuAMQwmPCfitEg" />
+	
+
+	<Button android:id="@+id/Button01" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_below="@+id/mapview"
+		android:text="@+id/Button01"></Button>
 </RelativeLayout>

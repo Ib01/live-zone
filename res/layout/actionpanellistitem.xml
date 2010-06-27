@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/actionPanel"
+	android:background="@drawable/panelbackground" 
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
+		
+		<CheckBox android:textColor="#000000"
+		android:id="@+id/actionpanellistitem_onentercheckbox"
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content"
+		android:text="Activate on entering zone"></CheckBox>
+		
+		<CheckBox android:textColor="#000000"
+		android:id="@+id/actionpanellistitem_onexitcheckbox"
+		android:layout_width="wrap_content" 
+		android:layout_height="wrap_content"
+		android:text="Activate on leaving zone"></CheckBox>
+		
+		<Button android:text="Add a plugin" android:id="@+id/actionpanellistitem_addpluginbutton"
+		android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+		
+		<ibsta.LiveZone.UI.Controls.SelectedPluginList
+			android:orientation="vertical"
+			android:layout_height="fill_parent" 
+			android:layout_width="fill_parent"
+			android:id="@+id/actionpanellistitem_selectedPluginPanel">
+		</ibsta.LiveZone.UI.Controls.SelectedPluginList>
+
+</LinearLayout>
+
+
