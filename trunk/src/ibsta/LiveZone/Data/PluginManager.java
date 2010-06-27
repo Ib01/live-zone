@@ -108,7 +108,7 @@ public class PluginManager
 	{
 		
 		for(ResolveInfo ri : resolveInfos)
-        {
+        {			
 			PluginInfo plin = new PluginInfo(
 					ri.activityInfo.packageName,
 					ri.activityInfo.name,

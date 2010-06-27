@@ -7,13 +7,13 @@
               android:padding="10dp">
 
 	
-	<ibsta.LiveZone.UI.Controls.PluginListView 
+	<ibsta.LiveZone.UI.Controls.PluginList 
 	android:scrollingCache="false"
 			android:fadingEdge="none"
 	android:id="@+id/pluginDialogList"  
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content">
-      </ibsta.LiveZone.UI.Controls.PluginListView>
+      </ibsta.LiveZone.UI.Controls.PluginList>
 			
 
 

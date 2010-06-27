@@ -5,34 +5,31 @@ import ibsta.LiveZone.LocationManager;
 import ibsta.LiveZone.R;
 import ibsta.LiveZone.Data.PluginInfo;
 import ibsta.LiveZone.LocationManager.OnSearchCompleteListener;
-import ibsta.LiveZone.UI.Controls.ActionPanel;
+import ibsta.LiveZone.UI.Controls.ActionPanelList;
 import ibsta.LiveZone.UI.Controls.PluginDialog;
+import ibsta.LiveZone.UI.Controls.ActionPanelList.OnPluginAddListener;
 import ibsta.LiveZone.UI.Controls.PluginDialog.OnPluginSelectedListener;
 import android.app.Activity;
 import android.app.Dialog;
 import android.location.Location;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 
-public class ZoneItem extends Activity 
+public class ZoneItem extends Activity implements OnPluginAddListener
 {
 	static final int DIALOG_PLUGIN_SELECT_ID = 0;
 	Location m_bestLocation = null;
 	LocationManager locationManager;
-
+	ActionPanelList actionPanelList;
 	
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.zoneitem);
 		
-		Button button = (Button)findViewById(R.id.Button01);
-		button.setOnClickListener(mSetProximityClick);
+		actionPanelList = (ActionPanelList)findViewById(R.id.zoneItemActionPanelList);
+		actionPanelList.setOnPluginAddListener(this);
 		
 		locationManager = new LocationManager(this);
 		locationManager.setOnSearchCompleteListener(new SearchCompleteListener());
@@ -40,11 +37,8 @@ public class ZoneItem extends Activity
 		
 	}
 	
-	private OnClickListener mSetProximityClick = new OnClickListener() {
-		public void onClick(View v) {
-			
-			showDialog(DIALOG_PLUGIN_SELECT_ID);
-		}
+	public void onPluginAdd() {
+		showDialog(DIALOG_PLUGIN_SELECT_ID);
 	};
 	
 	//called by the api when we call showDialog
@@ -63,21 +57,13 @@ public class ZoneItem extends Activity
 		return selDlg;
 	}
 	
-	
 
-	
-	
 	//plugin selected from plugin dialog
 	private class PluginSelectedListener implements OnPluginSelectedListener{
 
 		public void onPluginSelected(PluginInfo selectedPlugin) {
-
-			Toast.makeText(
-					getApplicationContext(), selectedPlugin.label, Toast.LENGTH_SHORT).show();    
 			
-			
-			ActionPanel lv = (ActionPanel)findViewById(R.id.selectedPluginPanel);
-			lv.AddPlugin(selectedPlugin);
+			actionPanelList.addPluginToActionItem(selectedPlugin);
 		 	
 		}
 		
@@ -92,7 +78,9 @@ public class ZoneItem extends Activity
 			
 			locationManager.removeUpdates();
 		}
-	};
+	}
+
+	
 
 	
 	

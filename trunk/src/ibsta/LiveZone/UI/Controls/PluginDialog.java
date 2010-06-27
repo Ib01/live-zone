@@ -25,7 +25,7 @@ public class PluginDialog extends Dialog{
 		this.setContentView(DIALOG_LAYOUT_ID);
 		this.setTitle(DIALOG_TITLE);
 		
-		PluginListView list = (PluginListView) this.findViewById(DIALOG_LIST_ID);   
+		PluginList list = (PluginList) this.findViewById(DIALOG_LIST_ID);   
 	    list.setOnItemClickListener(pluginListItemClickListener);
 	}
 	

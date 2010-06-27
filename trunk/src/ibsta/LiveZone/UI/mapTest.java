@@ -38,7 +38,7 @@ public class mapTest extends MapActivity {
 			
 			mapOverlays = mapView.getOverlays();
 					
-			drawable = getResources().getDrawable(R.drawable.androidmarker);
+			//drawable = getResources().getDrawable(R.drawable.androidmarker);
 			itemizedOverlay = new HelloItemizedOverlay(drawable);
 
 			Double lat  = location.getLatitude()*1E6;
