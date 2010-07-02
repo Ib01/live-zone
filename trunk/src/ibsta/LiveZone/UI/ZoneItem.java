@@ -13,10 +13,13 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 
 
-public class ZoneItem extends Activity implements OnPluginAddListener
+public class ZoneItem extends Activity implements OnPluginAddListener, OnClickListener, OnPluginSelectedListener, OnSearchCompleteListener
 {
 	static final int DIALOG_PLUGIN_SELECT_ID = 0;
 	Location m_bestLocation = null;
@@ -32,14 +35,39 @@ public class ZoneItem extends Activity implements OnPluginAddListener
 		actionPanelList.setOnPluginAddListener(this);
 		
 		locationManager = new LocationManager(this);
-		locationManager.setOnSearchCompleteListener(new SearchCompleteListener());
+		locationManager.setOnSearchCompleteListener(this);
 		locationManager.getUpdates();
 		
+		Button btn = (Button)findViewById(R.id.addActionList);
+		btn.setOnClickListener(this);
+		
+		/*LinearLayout LL = (LinearLayout)findViewById(R.id.actionPanel);
+		LL.setOnClickListener(l)*/
 	}
 	
+	
+	
+	//called when the location manager has finished searching for users current location
+	public void onSearchComplete(Location location){
+		
+		EditText text = (EditText)findViewById(R.id.Location);
+		text.setText(location.toString());
+		
+		locationManager.removeUpdates();
+	}
+	
+	//All button clicks on the form routed here
+	public void onClick(View v) {
+		
+		actionPanelList.addActionPanel();
+	}
+	
+	//called when an add plugin button is clicked on inside our actionPanelList
 	public void onPluginAdd() {
+		
 		showDialog(DIALOG_PLUGIN_SELECT_ID);
-	};
+	}
+	
 	
 	//called by the api when we call showDialog
 	protected Dialog onCreateDialog(int id) {    
@@ -50,39 +78,21 @@ public class ZoneItem extends Activity implements OnPluginAddListener
 		
 			default:
 				selDlg = new PluginDialog(this);
-				selDlg.setOnPluginSelectedListener(new PluginSelectedListener());
+				selDlg.setOnPluginSelectedListener(this);
 				break;
 		}
 		
 		return selDlg;
 	}
 	
-
-	//plugin selected from plugin dialog
-	private class PluginSelectedListener implements OnPluginSelectedListener{
-
-		public void onPluginSelected(PluginInfo selectedPlugin) {
-			
-			actionPanelList.addPluginToActionItem(selectedPlugin);
-		 	
-		}
+	//called when a plugin has been clicked on in our select plugin dialog
+	public void onPluginSelected(PluginInfo selectedPlugin) {
 		
+		actionPanelList.addPluginToActionItem(selectedPlugin);
+	 	
 	}
 	
-	//location managers search has completed
-	private class SearchCompleteListener implements OnSearchCompleteListener{
-		public void onSearchComplete(Location location){
-			
-			EditText text = (EditText)findViewById(R.id.Location);
-			text.setText(location.toString());
-			
-			locationManager.removeUpdates();
-		}
-	}
 
-	
-
-	
 	
 }
 	
