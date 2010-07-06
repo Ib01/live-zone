@@ -112,7 +112,7 @@ public class PluginManager
 			PluginInfo plin = new PluginInfo(
 					ri.activityInfo.packageName,
 					ri.activityInfo.name,
-					ri.activityInfo.loadLabel(packageManager),
+					ri.activityInfo.loadLabel(packageManager).toString(),
 					ri.activityInfo.loadIcon(packageManager)
 					);
 			
