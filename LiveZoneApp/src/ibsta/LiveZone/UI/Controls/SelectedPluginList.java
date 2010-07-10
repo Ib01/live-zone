@@ -2,7 +2,7 @@ package ibsta.LiveZone.UI.Controls;
 
 
 import ibsta.LiveZone.R;
-import ibsta.LiveZone.Data.PluginInfo;
+import ibsta.LiveZone.Data.Model.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +12,14 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class SelectedPluginList extends LinearLayout {
+public class SelectedPluginList extends LinearLayout implements OnClickListener {
 
 	PluginListAdapter adapter;
 	SelectedPluginList panel;
@@ -38,15 +39,15 @@ public class SelectedPluginList extends LinearLayout {
 		panel = this;
 	}
 	
-	public void AddPlugin(PluginInfo plugin){
+	public void AddPlugin(Plugin plugin){
 		
 		adapter.add(plugin);
 		View v = adapter.getView(adapter.getCount() -1, null, null);
 		this.addView(v);
 	}
 	
-	public ArrayList<PluginInfo> GetPlugins(){
-		ArrayList<PluginInfo> plugins = new ArrayList<PluginInfo>();
+	public ArrayList<Plugin> GetPlugins(){
+		ArrayList<Plugin> plugins = new ArrayList<Plugin>();
 		
 		for(int i = 0; i < adapter.getCount(); i++){
 			plugins.add(adapter.getItem(i));
@@ -60,13 +61,13 @@ public class SelectedPluginList extends LinearLayout {
 	
 	
 	
-	public class PluginListAdapter extends ArrayAdapter<PluginInfo> {
+	public class PluginListAdapter extends ArrayAdapter<Plugin> {
 		
 		public PluginListAdapter(Context activity) {
-			super(activity, 0, new ArrayList<PluginInfo>());
+			super(activity, 0, new ArrayList<Plugin>());
 		}
 		
-	    public PluginListAdapter(Context activity, List<PluginInfo> plugins) {
+	    public PluginListAdapter(Context activity, List<Plugin> plugins) {
 	        super(activity, 0, plugins);
 	    }
 
@@ -78,7 +79,7 @@ public class SelectedPluginList extends LinearLayout {
 	                (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 	        View rowView = inflater.inflate(R.layout.selectedpluginlistitem, null);
-	        PluginInfo pluginInfo = getItem(position);
+	        Plugin pluginInfo = getItem(position);
 
 	        //set the row image
 	        ImageView imageView = (ImageView) rowView.findViewById(R.id.selectedPluginImage);
@@ -93,9 +94,7 @@ public class SelectedPluginList extends LinearLayout {
 	        textView.setText(pluginInfo.label);
 
 	        Button rem = (Button) rowView.findViewById(R.id.selectedPluginRemoveButton);
-	        //rem.setTag(pluginInfo);
-	        rem.setOnClickListener(new RemovePluginClickListener());
-	        
+	        rem.setOnClickListener(panel);
 	        
 	        //set an id for the row view
 	        rowView.setTag(pluginInfo);
@@ -106,18 +105,17 @@ public class SelectedPluginList extends LinearLayout {
 
 	}
 	
-	
-	private class RemovePluginClickListener implements OnClickListener{
-		 public void onClick(View v) {
-		 			 
-			 PluginInfo plin = (PluginInfo)((LinearLayout)v.getParent()).getTag();
-			 
-			 View vw = panel.findViewWithTag(plin);
-			 panel.removeView(vw);
-			 
-			 adapter.remove(plin);
-		 }
-	}
+
+	public void onClick(View v) {
+
+		 //click from remove plugin button
+		 Plugin plin = (Plugin)((LinearLayout)v.getParent()).getTag();
+		 
+		 View vw = panel.findViewWithTag(plin);
+		 panel.removeView(vw);
+		 
+		 adapter.remove(plin);
+	 }
 	
 
 }

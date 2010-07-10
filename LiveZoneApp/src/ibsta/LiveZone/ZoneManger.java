@@ -1,6 +1,6 @@
 package ibsta.LiveZone;
 
-import ibsta.LiveZone.Data.PluginInfo;
+import ibsta.LiveZone.Data.Model.Plugin;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
@@ -31,7 +31,7 @@ public class ZoneManger {
 	 * @param latitude
 	 * @param longtitude
 	 */
-	public void addProximityAlert(String action, PluginInfo plugin, double latitude, double longtitude){
+	public void addProximityAlert(String action, Plugin plugin, double latitude, double longtitude){
 		
 		addProximityAlert(action, plugin, latitude, longtitude, defaultRadius);
 		
@@ -48,7 +48,7 @@ public class ZoneManger {
 	 * @param longtitude
 	 * @param radius
 	 */
-	public void addProximityAlert(String action, PluginInfo plugin, double latitude, double longtitude, float radius){
+	public void addProximityAlert(String action, Plugin plugin, double latitude, double longtitude, float radius){
 		
 		addProximityAlert(action, plugin, latitude, longtitude, radius, defaultExpiration);
 	}
@@ -62,7 +62,7 @@ public class ZoneManger {
 	 * @param radius
 	 * @param alertExpiration
 	 */
-	public void addProximityAlert(String action, PluginInfo plugin, double latitude, double longtitude, float radius, long alertExpiration){
+	public void addProximityAlert(String action, Plugin plugin, double latitude, double longtitude, float radius, long alertExpiration){
 		
 		//opportunity to change defaults
 		defaultExpiration = alertExpiration;
@@ -79,7 +79,7 @@ public class ZoneManger {
 	 * @param longtitude
 	 * @param radius
 	 */
-	public void cancelProximityAlert(String action, PluginInfo plugin, double latitude, double longtitude, float radius){
+	public void cancelProximityAlert(String action, Plugin plugin, double latitude, double longtitude, float radius){
 		
 		locationManager.removeProximityAlert(getPendingIntent(action, plugin));
 	}
@@ -87,7 +87,7 @@ public class ZoneManger {
 	/*
 	 * need to ensure we use identical PendingIntent's when adding and removing
 	*/
-	private PendingIntent getPendingIntent(String action, PluginInfo plugin){
+	private PendingIntent getPendingIntent(String action, Plugin plugin){
 		
 		Intent intent = new Intent(action);
 		intent.setComponent(new ComponentName(plugin.packageName, plugin.activityName));

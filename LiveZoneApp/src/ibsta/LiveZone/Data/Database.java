@@ -1,5 +1,9 @@
 package ibsta.LiveZone.Data;
 
+import ibsta.LiveZone.Data.Model.Plugin;
+import ibsta.LiveZone.Data.Model.ProximityAlert;
+import ibsta.LiveZone.Data.Model.ZoneAction;
+
 import java.util.ArrayList;
 
 import android.content.ContentValues;
@@ -17,7 +21,7 @@ public class Database {
 	  private final Context context;
 	  private myDbHelper dbHelper;
 	  
-	  private static final int DATABASE_VERSION = 4;
+	  private static final int DATABASE_VERSION = 5;
 	  private static final String DATABASE_NAME = "LiveZone.db";
 	  	
 	  //
@@ -142,6 +146,11 @@ public class Database {
 	  
 	  //CONSTRUCTORS
 	  
+	  public Database(Context _context, int dbVersion) {
+		  context = _context;
+		  dbHelper = new myDbHelper(context, DATABASE_NAME, null, DATABASE_VERSION);
+	  }
+	  
 	  public Database(Context _context) {
 		  context = _context;
 		  dbHelper = new myDbHelper(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -166,8 +175,18 @@ public class Database {
 		  db.close();
 	  }
 	  
+	  
+	  public void updateAlert(ProximityAlert alert) {
+		  
+		  //db.update(table, values, whereClause, whereArgs)
+	  }
+	  
+	  
 	  public int insertAlert(ProximityAlert alert) {
-			
+		  
+		  
+		  //NOTE: SHOULD PROBABLY BE USING TRANSACTIONS HERE
+		  
 		  int locId = AddLocationRow(alert);
 		  if(locId < 0)
 			  return locId; //error occured
@@ -178,7 +197,7 @@ public class Database {
 			  if(actId < 0)
 				  return actId; //error occured
 			  
-			  for(PluginInfo pi : za.plugins)
+			  for(Plugin pi : za.plugins)
 			  {
 				  int pinId = AddPluginRow(pi, actId);
 				  if(pinId < 0)
@@ -189,24 +208,57 @@ public class Database {
 		  return locId;
 	  }
 	  
+	  /**
+		 * Delete an alert. 
+		 * 
+		 * @param alertId. id of the item to delete
+		 * @return returns the number of rows effected. Note: if delete 
+		 * succeeds this will be one. internally however more than 1 recorded 
+		 * will be deleted 
+		 */
 	  public int deleteAlert(int alertId) {
 		  
-		  //returns rows effected
-		  return db.delete(TABLE_LOCATION, COLUMN_LOCATION_ID + "=" + alertId, null);
+		  String[] params = {((Integer)alertId).toString()};
+		  
+		  //delete operation useses cascade delete triggers so we don't have 
+		  //to do anything other than delete the location
+		  return db.delete(TABLE_LOCATION, COLUMN_LOCATION_ID + "=?" , params);
 	  }
 	  
+	  
+	 /**
+		 * get alert as a cursor
+		 * 
+		 * @param alertId. id of the item to get
+		 * @return a cursor
+		 */
 	  public Cursor getAlertCursor(int alertId) {
 		  
 		  String[] params = {((Integer)alertId).toString()};
 		  return db.rawQuery(SQL_GET_ALERT, params);
 	  }
 	 
+	 /**
+		 * get alert as an alert object
+		 * 
+		 * @param alertId. id of the item to get
+		 * @return a ProximityAlert object.  this will be null 
+		 * if no alert was found
+		 */
 	  public ProximityAlert getAlert(int alertId) {
 		  
 		  return getLocation(alertId);
 	  }
 	  
 	  
+	  //just for testing
+	  public void deleteDB() {
+		  
+		  //returns rows effected
+		  db.delete(TABLE_PLUGIN, null, null);
+		  db.delete(TABLE_ACTION, null, null);
+		  db.delete(TABLE_LOCATION, null, null);
+	  }
 	  
 	  
 	  //
@@ -219,15 +271,16 @@ public class Database {
 	  }
 	  private ProximityAlert getLocation(int locationId) {
 		  Cursor c = getLocationCursor(locationId);
+		  ProximityAlert pa = null;
 		  
-		  c.moveToFirst();
-		  
-		  ProximityAlert pa = new ProximityAlert(
+		  if(c.moveToFirst()){
+			  
+			  pa = new ProximityAlert(
 					c.getString(INDEX_LATITUDE),
 					c.getString(INDEX_LONGTITUDE),
 					c.getString(INDEX_ACCURACY),
 					getActionsForLocation(c.getInt(INDEX_LOCATION_ID))); //could be dodgy: multiple cursors open at same time
-		  
+		  }
 		  c.close();
 			
 		  return pa;
@@ -264,15 +317,15 @@ public class Database {
 		  String[] params = {((Integer)actionId).toString()};
 		  return db.rawQuery(SQL_GET_PLUGIN_FOR_ACTION, params);
 	  }
-	  private ArrayList<PluginInfo> getPluginsForAction(int actionId) {
+	  private ArrayList<Plugin> getPluginsForAction(int actionId) {
 		  
 		  Cursor c = getPluginsForActionCursor(actionId);
-		  ArrayList<PluginInfo> pi = new ArrayList<PluginInfo>();
+		  ArrayList<Plugin> pi = new ArrayList<Plugin>();
 		  
 		  if (c.moveToFirst()) {
 				do {
 					pi.add(
-							new PluginInfo(
+							new Plugin(
 								c.getString(INDEX_PACKAGE_NAME),
 								c.getString(INDEX_ACTIVITY_NAME),
 								c.getString(INDEX_LABEL),
@@ -312,7 +365,7 @@ public class Database {
 	  }
 	  
 	  
-	  private int AddPluginRow(PluginInfo plugin, int actionId)
+	  private int AddPluginRow(Plugin plugin, int actionId)
 	  {
 		  ContentValues contentValues = new ContentValues();
 		  contentValues.put(COLUMN_PACKAGE_NAME, plugin.packageName);
@@ -327,7 +380,7 @@ public class Database {
 	  
 	  
 	  
-	
+	  
 	  private static class myDbHelper extends SQLiteOpenHelper {
 		  
 		  	public myDbHelper(Context context, String name,
@@ -374,7 +427,12 @@ public class Database {
 		    
 	  }
 	  
+	    
 	  
+	  
+        
+		 
+} 
 	  
 	  
 	  
@@ -467,10 +525,4 @@ return result;*/
 	    return db.update(DATABASE_TABLE, contentValues, KEY_ID + "=" + _rowIndex, null);
 	  }
 */
-	    
-	  
-		  
-	      
-	      
-	 
-}
+

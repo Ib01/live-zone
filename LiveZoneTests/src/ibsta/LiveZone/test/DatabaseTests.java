@@ -1,9 +1,9 @@
 package ibsta.LiveZone.test;
 
 import ibsta.LiveZone.Data.Database;
-import ibsta.LiveZone.Data.PluginInfo;
-import ibsta.LiveZone.Data.ProximityAlert;
-import ibsta.LiveZone.Data.ZoneAction;
+import ibsta.LiveZone.Data.Model.Plugin;
+import ibsta.LiveZone.Data.Model.ProximityAlert;
+import ibsta.LiveZone.Data.Model.ZoneAction;
 
 import java.util.ArrayList;
 
@@ -53,17 +53,6 @@ public class DatabaseTests extends AndroidTestCase {
 		Assert.assertTrue(id > -1);
 	}
 	
-	private ProximityAlert getMockAlert()
-	{
-		ArrayList<PluginInfo> pal = new ArrayList<PluginInfo>();
-		pal.add(new PluginInfo("pn1", "an1", "lbl", null));
-		pal.add(new PluginInfo("pn2", "an2", "lbl", null));
-		
-		ArrayList<ZoneAction> zal = new ArrayList<ZoneAction>();
-		zal.add(new ZoneAction(1,1,pal));
-		
-		return new ProximityAlert("lat", "lng", "10.1", zal);
-	}
 	
 	
 	public void testGetAlertCursor()
@@ -96,16 +85,44 @@ public class DatabaseTests extends AndroidTestCase {
 	}
 	
 	
+	
+	private ProximityAlert getMockAlert()
+	{
+		ArrayList<Plugin> pal = new ArrayList<Plugin>();
+		pal.add(new Plugin("pn1", "an1", "lbl", null));
+		pal.add(new Plugin("pn2", "an2", "lbl", null));
+		
+		ArrayList<ZoneAction> zal = new ArrayList<ZoneAction>();
+		zal.add(new ZoneAction(1,1,pal));
+		
+		return new ProximityAlert("lat", "lng", "10.1", zal);
+	}
+	
 	public void testDeleteAlert()
 	{
 		Database db = new Database(this.getContext());
 		
 		db.open();
+		// start with no data
+		db.deleteDB();
 		
+		//insert
 		int id = db.insertAlert(getMockAlert());
+		
+		//check insert worked
+		ProximityAlert al = db.getAlert(id);
+		Assert.assertTrue(al != null);
+		Assert.assertTrue(al.latitude.length() > 0);
+		Assert.assertTrue(al.actions.get(0).entering_zone == 1);
+		Assert.assertTrue(al.actions.get(0).plugins.get(1).activityName.length() > 0);
+			
+		//delete
 		int effected = db.deleteAlert(id);
 		
+		//check delete worked
 		Assert.assertTrue(effected == 1);
+		al = db.getAlert(id);
+		Assert.assertTrue(al == null);
 		
 		db.close();
 	}
