@@ -1,7 +1,7 @@
 package ibsta.LiveZone.UI.Controls;
 
 import ibsta.LiveZone.R;
-import ibsta.LiveZone.Data.PluginInfo;
+import ibsta.LiveZone.Data.Model.Plugin;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
@@ -34,7 +34,7 @@ public class PluginDialog extends Dialog{
 	private OnItemClickListener pluginListItemClickListener = new OnItemClickListener() {    
 		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 			
-				onPluginSelected((PluginInfo)view.getTag());				
+				onPluginSelected((Plugin)view.getTag());				
 				dismiss();
 		}
 		
@@ -42,7 +42,7 @@ public class PluginDialog extends Dialog{
 	
 	
 	
-	private void onPluginSelected(PluginInfo selectedPlugin){
+	private void onPluginSelected(Plugin selectedPlugin){
 
 		if(onPluginSelectedListener != null) {
 			onPluginSelectedListener.onPluginSelected(selectedPlugin);
@@ -55,7 +55,7 @@ public class PluginDialog extends Dialog{
 	}
 	
 	public interface OnPluginSelectedListener {
-		public abstract void onPluginSelected(PluginInfo selectedPlugin);
+		public abstract void onPluginSelected(Plugin selectedPlugin);
 	}
 	
 

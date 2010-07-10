@@ -3,7 +3,7 @@ package ibsta.LiveZone.UI;
 
 import ibsta.LiveZone.LocationManager;
 import ibsta.LiveZone.R;
-import ibsta.LiveZone.Data.PluginInfo;
+import ibsta.LiveZone.Data.Model.Plugin;
 import ibsta.LiveZone.LocationManager.OnSearchCompleteListener;
 import ibsta.LiveZone.UI.Controls.ActionPanelList;
 import ibsta.LiveZone.UI.Controls.PluginDialog;
@@ -18,8 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-
-public class ZoneItem extends Activity implements OnPluginAddListener, OnClickListener, OnPluginSelectedListener, OnSearchCompleteListener
+public class AddAlert extends Activity implements OnPluginAddListener, OnClickListener, OnPluginSelectedListener, OnSearchCompleteListener
 {
 	static final int DIALOG_PLUGIN_SELECT_ID = 0;
 	Location m_bestLocation = null;
@@ -29,7 +28,7 @@ public class ZoneItem extends Activity implements OnPluginAddListener, OnClickLi
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.zoneitem);
+		setContentView(R.layout.addalert);
 		
 		actionPanelList = (ActionPanelList)findViewById(R.id.zoneItemActionPanelList);
 		actionPanelList.setOnPluginAddListener(this);
@@ -60,6 +59,8 @@ public class ZoneItem extends Activity implements OnPluginAddListener, OnClickLi
 	public void onClick(View v) {
 		
 		actionPanelList.addActionPanel();
+		
+		actionPanelList.GetActionList();
 	}
 	
 	//called when an add plugin button is clicked on inside our actionPanelList
@@ -86,7 +87,7 @@ public class ZoneItem extends Activity implements OnPluginAddListener, OnClickLi
 	}
 	
 	//called when a plugin has been clicked on in our select plugin dialog
-	public void onPluginSelected(PluginInfo selectedPlugin) {
+	public void onPluginSelected(Plugin selectedPlugin) {
 		
 		actionPanelList.addPluginToActionItem(selectedPlugin);
 	 	

@@ -1,8 +1,8 @@
 package ibsta.LiveZone.UI.Controls;
 
 import ibsta.LiveZone.R;
-import ibsta.LiveZone.Data.PluginInfo;
 import ibsta.LiveZone.Data.PluginManager;
+import ibsta.LiveZone.Data.Model.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,13 +49,13 @@ public class PluginList extends ListView {
 	
 	
 	
-	public class PluginListAdapter extends ArrayAdapter<PluginInfo> {
+	public class PluginListAdapter extends ArrayAdapter<Plugin> {
 		
 		private static final int LIST_ITEM_LAYOUT_ID = R.layout.pluginlistitem;
 		private static final int LIST_ITEM_IMAGE_ID = R.id.pluginListItemImage;
 		private static final int LIST_ITEM_TEXT_ID = R.id.pluginListItemText;
 		
-	    public PluginListAdapter(Context activity, List<PluginInfo> plugins) {
+	    public PluginListAdapter(Context activity, List<Plugin> plugins) {
 	        super(activity, 0, plugins);
 	        
 	    }
@@ -69,7 +69,7 @@ public class PluginList extends ListView {
 
 	        // Inflate the views from XML
 	        View rowView = inflater.inflate(LIST_ITEM_LAYOUT_ID, null);
-	        PluginInfo pluginInfo = getItem(position);
+	        Plugin pluginInfo = getItem(position);
 
 	        // Load the image and set it on the ImageView
 	        ImageView imageView = (ImageView) rowView.findViewById(LIST_ITEM_IMAGE_ID);

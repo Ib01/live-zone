@@ -1,16 +1,18 @@
 package ibsta.LiveZone.UI.Controls;
 
 
+import java.util.ArrayList;
+
 import ibsta.LiveZone.R;
-import ibsta.LiveZone.Data.PluginInfo;
-import ibsta.LiveZone.UI.Controls.PluginDialog.OnPluginSelectedListener;
-import android.app.Activity;
+import ibsta.LiveZone.Data.Model.Plugin;
+import ibsta.LiveZone.Data.Model.ZoneAction;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.LinearLayout;
 
 public class ActionPanelList extends LinearLayout implements OnClickListener {
@@ -38,8 +40,47 @@ public class ActionPanelList extends LinearLayout implements OnClickListener {
 		this.addView(getView());
 	}
 	
+	
+	public ArrayList<ZoneAction> GetActionList()
+	{
+		int cnt = this.getChildCount();
+		ArrayList<ZoneAction> actions = new ArrayList<ZoneAction>(); 
+		
+		for(int i = 0; i < cnt; i++){
+			
+			View v = this.getChildAt(i);
+			int onEnter = 0;
+			int onLeave = 0;
+			
+			CheckBox ent = (CheckBox) v.findViewById(R.id.actionpanellistitem_onentercheckbox);
+			if(ent.isChecked())
+				onEnter = 1;
+			
+			CheckBox ext = (CheckBox) v.findViewById(R.id.actionpanellistitem_onexitcheckbox);
+			if(ext.isChecked())
+				onLeave = 1;
+			
+			SelectedPluginList plins = (SelectedPluginList) v.findViewById(R.id.actionpanellistitem_selectedPluginPanel);
+					
+			actions.add(
+					new ZoneAction(
+						onEnter, 
+						onLeave,
+						plins.GetPlugins()
+					)
+			);
+			
+		}
+			
+		return actions;
+	}
+	
+	
+	
+	
+	
 	//add a plugin to selected plugin list next to the button the user clicked on   
-	public void addPluginToActionItem(PluginInfo plugin){
+	public void addPluginToActionItem(Plugin plugin){
 		
 		if(activeSelectedPluginList != null)
 			activeSelectedPluginList.AddPlugin(plugin);

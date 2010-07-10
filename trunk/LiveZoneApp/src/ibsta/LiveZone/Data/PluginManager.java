@@ -1,6 +1,8 @@
 package ibsta.LiveZone.Data;
 
 
+import ibsta.LiveZone.Data.Model.Plugin;
+
 import java.util.ArrayList;
 import java.util.List;
 import android.content.Context;
@@ -37,17 +39,17 @@ public class PluginManager
 		_intentActions.add(intentAction);
 	}
 	
-	public ArrayList<PluginInfo> getActivityPlugins()
+	public ArrayList<Plugin> getActivityPlugins()
 	{
 		return parseQueryResults(queryPackageManager(ACTIVITY_COMPONENT_TYPE));
 	}
 	
-	public ArrayList<PluginInfo> getServicePlugins()
+	public ArrayList<Plugin> getServicePlugins()
 	{
 		return parseQueryResults(queryPackageManager(SERVICE_COMPONENT_TYPE));
 	}
 	
-	public ArrayList<PluginInfo> getPlugins()
+	public ArrayList<Plugin> getPlugins()
 	{
 		return mockPlugins();
 		
@@ -99,17 +101,17 @@ public class PluginManager
 		
 	}
 	
-	private ArrayList<PluginInfo> parseQueryResults(List<ResolveInfo> resolveInfos){
+	private ArrayList<Plugin> parseQueryResults(List<ResolveInfo> resolveInfos){
 		
-		return parseQueryResults(new ArrayList<PluginInfo>(), resolveInfos);
+		return parseQueryResults(new ArrayList<Plugin>(), resolveInfos);
 	}
 	
-	private ArrayList<PluginInfo> parseQueryResults(ArrayList<PluginInfo> pluginList, List<ResolveInfo> resolveInfos)
+	private ArrayList<Plugin> parseQueryResults(ArrayList<Plugin> pluginList, List<ResolveInfo> resolveInfos)
 	{
 		
 		for(ResolveInfo ri : resolveInfos)
         {			
-			PluginInfo plin = new PluginInfo(
+			Plugin plin = new Plugin(
 					ri.activityInfo.packageName,
 					ri.activityInfo.name,
 					ri.activityInfo.loadLabel(packageManager).toString(),
@@ -160,22 +162,22 @@ public class PluginManager
 	
 
 	// DELETE THIS
-	private ArrayList<PluginInfo> mockPlugins(){
+	private ArrayList<Plugin> mockPlugins(){
 		
-		ArrayList<PluginInfo> pl = new ArrayList<PluginInfo>(); 
+		ArrayList<Plugin> pl = new ArrayList<Plugin>(); 
 		
-		pl.add(new PluginInfo("","","item 1", null));
-		pl.add(new PluginInfo("","","item 2", null));
-		pl.add(new PluginInfo("","","item 3", null));
-		pl.add(new PluginInfo("","","item 4", null));
-		pl.add(new PluginInfo("","","item 5", null));
-		pl.add(new PluginInfo("","","item 6", null));
-		pl.add(new PluginInfo("","","item 7", null));
-		pl.add(new PluginInfo("","","item 8", null));
-		pl.add(new PluginInfo("","","item 9", null));
-		pl.add(new PluginInfo("","","item 10", null));
-		pl.add(new PluginInfo("","","item 11", null));
-		pl.add(new PluginInfo("","","item 12", null));
+		pl.add(new Plugin("","","item 1", null));
+		pl.add(new Plugin("","","item 2", null));
+		pl.add(new Plugin("","","item 3", null));
+		pl.add(new Plugin("","","item 4", null));
+		pl.add(new Plugin("","","item 5", null));
+		pl.add(new Plugin("","","item 6", null));
+		pl.add(new Plugin("","","item 7", null));
+		pl.add(new Plugin("","","item 8", null));
+		pl.add(new Plugin("","","item 9", null));
+		pl.add(new Plugin("","","item 10", null));
+		pl.add(new Plugin("","","item 11", null));
+		pl.add(new Plugin("","","item 12", null));
 		
 		return pl;
 	}
