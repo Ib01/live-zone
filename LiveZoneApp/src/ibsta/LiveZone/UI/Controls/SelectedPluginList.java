@@ -22,7 +22,7 @@ import android.widget.TextView;
 public class SelectedPluginList extends LinearLayout implements OnClickListener {
 
 	PluginListAdapter adapter;
-	SelectedPluginList panel;
+	SelectedPluginList pluginList;
 	
 	public SelectedPluginList(Context context) {
 		super(context);
@@ -36,7 +36,7 @@ public class SelectedPluginList extends LinearLayout implements OnClickListener 
 	
 	private void initialise(Context context){
 		adapter = new PluginListAdapter(context); 
-		panel = this;
+		pluginList = this;
 	}
 	
 	public void AddPlugin(Plugin plugin){
@@ -44,6 +44,17 @@ public class SelectedPluginList extends LinearLayout implements OnClickListener 
 		adapter.add(plugin);
 		View v = adapter.getView(adapter.getCount() -1, null, null);
 		this.addView(v);
+	}
+	
+	public void AddPlugins(ArrayList<Plugin> plugins){
+		
+		for(Plugin pl : plugins){
+			
+			adapter.add(pl);
+			View v = adapter.getView(adapter.getCount() -1, null, null);
+			this.addView(v);
+		}
+		
 	}
 	
 	public ArrayList<Plugin> GetPlugins(){
@@ -68,7 +79,7 @@ public class SelectedPluginList extends LinearLayout implements OnClickListener 
 		}
 		
 	    public PluginListAdapter(Context activity, List<Plugin> plugins) {
-	        super(activity, 0, plugins);
+	        super(activity, 0, plugins); 
 	    }
 
 	    @Override
@@ -94,7 +105,7 @@ public class SelectedPluginList extends LinearLayout implements OnClickListener 
 	        textView.setText(pluginInfo.label);
 
 	        Button rem = (Button) rowView.findViewById(R.id.selectedPluginRemoveButton);
-	        rem.setOnClickListener(panel);
+	        rem.setOnClickListener(pluginList);
 	        
 	        //set an id for the row view
 	        rowView.setTag(pluginInfo);
@@ -111,8 +122,8 @@ public class SelectedPluginList extends LinearLayout implements OnClickListener 
 		 //click from remove plugin button
 		 Plugin plin = (Plugin)((LinearLayout)v.getParent()).getTag();
 		 
-		 View vw = panel.findViewWithTag(plin);
-		 panel.removeView(vw);
+		 View vw = pluginList.findViewWithTag(plin);
+		 pluginList.removeView(vw);
 		 
 		 adapter.remove(plin);
 	 }

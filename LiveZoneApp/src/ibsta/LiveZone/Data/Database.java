@@ -21,7 +21,7 @@ public class Database {
 	  private final Context context;
 	  private myDbHelper dbHelper;
 	  
-	  private static final int DATABASE_VERSION = 5;
+	  private static final int DATABASE_VERSION = 6;
 	  private static final String DATABASE_NAME = "LiveZone.db";
 	  	
 	  //
@@ -29,6 +29,7 @@ public class Database {
 	  //
 	  public static final String TABLE_LOCATION = "location";
 	  public static final String COLUMN_LOCATION_ID="location_id";
+	  public static final String COLUMN_NAME="name";
 	  public static final String COLUMN_LATITUDE="latitude";
 	  public static final String COLUMN_LONGTITUDE="longtitude";
 	  public static final String COLUMN_ACCURACY="accuracy";
@@ -38,15 +39,17 @@ public class Database {
 		  + TABLE_LOCATION 
 		  + " (" 
 		  + COLUMN_LOCATION_ID + " integer primary key autoincrement, " 
+		  + COLUMN_NAME + " text not null, "
 		  + COLUMN_LATITUDE + " text not null, "
 		  + COLUMN_LONGTITUDE + " text not null, "
 		  + COLUMN_ACCURACY + " text not null"
 		  + ");";
 	  
 	  public static final int INDEX_LOCATION_ID = 0;
-	  public static final int INDEX_LATITUDE = 1;
-	  public static final int INDEX_LONGTITUDE = 2;
-	  public static final int INDEX_ACCURACY = 3;
+	  public static final int INDEX_NAME = 1;
+	  public static final int INDEX_LATITUDE = 2;
+	  public static final int INDEX_LONGTITUDE = 3;
+	  public static final int INDEX_ACCURACY = 4;
 	  
 	  //
 	  // ACTION TABLE
@@ -176,20 +179,23 @@ public class Database {
 	  }
 	  
 	  
-	  public void updateAlert(ProximityAlert alert) {
-		  
-		  //db.update(table, values, whereClause, whereArgs)
-	  }
 	  
-	  
-	  public int insertAlert(ProximityAlert alert) {
-		  
+	  public int saveAlert(ProximityAlert alert) {
 		  
 		  //NOTE: SHOULD PROBABLY BE USING TRANSACTIONS HERE
 		  
-		  int locId = AddLocationRow(alert);
-		  if(locId < 0)
-			  return locId; //error occured
+		  //if we are updating an exitstin alert keep the 
+		  //location parent but delete all child records
+		  int locId;
+		  if(alert.id == -1){
+			  locId = AddLocationRow(alert);
+			  if(locId < 0)
+				  return locId; //error occured
+		  }
+		  else{
+			  deleteActionsForLocation(alert.id);
+			  locId = alert.id;
+		  }
 		  
 		  for(ZoneAction za : alert.actions)
 		  {
@@ -221,8 +227,20 @@ public class Database {
 		  String[] params = {((Integer)alertId).toString()};
 		  
 		  //delete operation useses cascade delete triggers so we don't have 
-		  //to do anything other than delete the location
+		  //to do anything other than delete the location. this will also delete 
+		  //any attached actions and plugins
 		  return db.delete(TABLE_LOCATION, COLUMN_LOCATION_ID + "=?" , params);
+	  }
+	  
+	  
+	  public int deleteActionsForLocation(int locationId) {
+		  
+		  String[] params = {((Integer)locationId).toString()};
+		  
+		  //delete operation useses cascade delete trigger so we don't have 
+		  //to do anything other than delete the action.  this will also delet 
+		  //any attached plugins
+		  return db.delete(TABLE_ACTION, COLUMN_LOCATION_FK + "=?" , params);
 	  }
 	  
 	  
@@ -276,6 +294,8 @@ public class Database {
 		  if(c.moveToFirst()){
 			  
 			  pa = new ProximityAlert(
+					c.getInt(INDEX_LOCATION_ID),
+					c.getString(INDEX_NAME),
 					c.getString(INDEX_LATITUDE),
 					c.getString(INDEX_LONGTITUDE),
 					c.getString(INDEX_ACCURACY),
@@ -298,6 +318,7 @@ public class Database {
 				do {
 						za.add(
 							new ZoneAction(
+								c.getInt(INDEX_ACTION_ID),
 								c.getInt(INDEX_ENTERING_ZONE),
 								c.getInt(INDEX_LEAVING_ZONE),
 								getPluginsForAction(c.getInt(INDEX_ACTION_ID))
@@ -326,6 +347,7 @@ public class Database {
 				do {
 					pi.add(
 							new Plugin(
+								c.getInt(INDEX_PLUGIN_ID),
 								c.getString(INDEX_PACKAGE_NAME),
 								c.getString(INDEX_ACTIVITY_NAME),
 								c.getString(INDEX_LABEL),
@@ -346,6 +368,7 @@ public class Database {
 	  private int AddLocationRow(ProximityAlert alert)
 	  {
 		  ContentValues contentValues = new ContentValues();
+		  contentValues.put(COLUMN_NAME, alert.name);
 		  contentValues.put(COLUMN_LATITUDE, alert.latitude);
 		  contentValues.put(COLUMN_LONGTITUDE, alert.longtitude);
 		  contentValues.put(COLUMN_ACCURACY, alert.accuracy);
