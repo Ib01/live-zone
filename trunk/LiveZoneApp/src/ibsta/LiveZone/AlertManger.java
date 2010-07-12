@@ -7,14 +7,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 
-public class ZoneManger {
+public class AlertManger {
 
 	private final Context appContext;
 	private final LocationManager locationManager;
 	public long defaultExpiration;
 	public float defaultRadius;
 	
-	public ZoneManger(Context _appContext){
+	public AlertManger(Context _appContext){
 		
 		appContext = _appContext;
 		locationManager = (LocationManager)appContext.getSystemService(Context.LOCATION_SERVICE);

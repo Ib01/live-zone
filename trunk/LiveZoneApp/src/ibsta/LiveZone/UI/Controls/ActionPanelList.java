@@ -1,11 +1,12 @@
 package ibsta.LiveZone.UI.Controls;
 
 
-import java.util.ArrayList;
-
 import ibsta.LiveZone.R;
 import ibsta.LiveZone.Data.Model.Plugin;
 import ibsta.LiveZone.Data.Model.ZoneAction;
+
+import java.util.ArrayList;
+
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -32,16 +33,25 @@ public class ActionPanelList extends LinearLayout implements OnClickListener {
 	
 	private void initialise(Context context){
 		
-		addActionPanel();
+		createAction();
 	}
 	
-	public void addActionPanel(){
+	public void createAction(){
 		
 		this.addView(getView());
 	}
 	
 	
-	public ArrayList<ZoneAction> GetActionList()
+	public void setActionItems(ArrayList<ZoneAction> actions){
+		
+		for(ZoneAction za : actions){
+			this.addView(getView(za));	
+		}
+	}
+	
+	
+	
+	public ArrayList<ZoneAction> getActionItems()
 	{
 		int cnt = this.getChildCount();
 		ArrayList<ZoneAction> actions = new ArrayList<ZoneAction>(); 
@@ -60,15 +70,20 @@ public class ActionPanelList extends LinearLayout implements OnClickListener {
 			if(ext.isChecked())
 				onLeave = 1;
 			
-			SelectedPluginList plins = (SelectedPluginList) v.findViewById(R.id.actionpanellistitem_selectedPluginPanel);
-					
-			actions.add(
-					new ZoneAction(
-						onEnter, 
-						onLeave,
-						plins.GetPlugins()
-					)
-			);
+			SelectedPluginList spl = (SelectedPluginList) v.findViewById(R.id.actionpanellistitem_selectedPluginPanel);
+			ArrayList<Plugin> pls = spl.GetPlugins();
+			
+			//we do not want to add any action items if they dont have plugins
+			if(!pls.isEmpty()){
+				
+				actions.add(
+						new ZoneAction(
+							onEnter, 
+							onLeave,
+							pls
+						)
+				);
+			}
 			
 		}
 			
@@ -84,6 +99,23 @@ public class ActionPanelList extends LinearLayout implements OnClickListener {
 		
 		if(activeSelectedPluginList != null)
 			activeSelectedPluginList.AddPlugin(plugin);
+	}
+	
+	
+	public View getView(ZoneAction action) {
+		
+		View vw = getView();
+		
+		CheckBox ent = (CheckBox) vw.findViewById(R.id.actionpanellistitem_onentercheckbox);
+		ent.setChecked((action.entering_zone == 1));
+		
+		CheckBox ext = (CheckBox) vw.findViewById(R.id.actionpanellistitem_onexitcheckbox);
+		ext.setChecked((action.leaving_zone == 1));
+		
+		SelectedPluginList pl = (SelectedPluginList) vw.findViewById(R.id.actionpanellistitem_selectedPluginPanel);
+		pl.AddPlugins(action.plugins);
+		
+		return vw;
 	}
 	
 	

@@ -42,12 +42,12 @@ public class DatabaseTests extends AndroidTestCase {
 		Assert.assertFalse(db.isOpen());
 	}
 	
-	public void testInsertAlert()
+	public void testSaveAlert()
 	{
 		Database db = new Database(this.getContext());
 		
 		db.open();
-		int id = db.insertAlert(getMockAlert());
+		int id = db.saveAlert(getMockAlert());
 		db.close();
 		
 		Assert.assertTrue(id > -1);
@@ -61,7 +61,7 @@ public class DatabaseTests extends AndroidTestCase {
 		
 		db.open();
 		
-		int id = db.insertAlert(getMockAlert());
+		int id = db.saveAlert(getMockAlert());
 		Cursor c = db.getAlertCursor(id);
 		Assert.assertTrue(c.getCount() > 0);
 		c.close();
@@ -73,8 +73,9 @@ public class DatabaseTests extends AndroidTestCase {
 		Database db = new Database(this.getContext());
 		
 		db.open();
+		db.deleteDB();
 		
-		int id = db.insertAlert(getMockAlert());
+		int id = db.saveAlert(getMockAlert());
 		ProximityAlert al = db.getAlert(id);
 		
 		Assert.assertTrue(al.latitude.length() > 0);
@@ -86,17 +87,6 @@ public class DatabaseTests extends AndroidTestCase {
 	
 	
 	
-	private ProximityAlert getMockAlert()
-	{
-		ArrayList<Plugin> pal = new ArrayList<Plugin>();
-		pal.add(new Plugin("pn1", "an1", "lbl", null));
-		pal.add(new Plugin("pn2", "an2", "lbl", null));
-		
-		ArrayList<ZoneAction> zal = new ArrayList<ZoneAction>();
-		zal.add(new ZoneAction(1,1,pal));
-		
-		return new ProximityAlert("lat", "lng", "10.1", zal);
-	}
 	
 	public void testDeleteAlert()
 	{
@@ -107,7 +97,7 @@ public class DatabaseTests extends AndroidTestCase {
 		db.deleteDB();
 		
 		//insert
-		int id = db.insertAlert(getMockAlert());
+		int id = db.saveAlert(getMockAlert());
 		
 		//check insert worked
 		ProximityAlert al = db.getAlert(id);
@@ -128,7 +118,42 @@ public class DatabaseTests extends AndroidTestCase {
 	}
 	
 	
-
+	public void testDeleteActionsForLocation()
+	{
+		Database db = new Database(this.getContext());
+		
+		db.open();
+		// start with no data
+		db.deleteDB();
+		
+		//insert
+		int id = db.saveAlert(getMockAlert());
+		db.deleteActionsForLocation(id);
+		
+		//check insert worked
+		ProximityAlert al = db.getAlert(id);
+		Assert.assertTrue(al != null);
+		Assert.assertTrue(al.latitude.length() > 0);
+		Assert.assertTrue(al.actions.isEmpty());
+			
+		db.close();
+		
+	}
+	
+	
+	
+	private ProximityAlert getMockAlert()
+	{
+		ArrayList<Plugin> pal = new ArrayList<Plugin>();
+		pal.add(new Plugin("pn1", "an1", "lbl", null));
+		pal.add(new Plugin("pn2", "an2", "lbl", null));
+		
+		ArrayList<ZoneAction> zal = new ArrayList<ZoneAction>();
+		zal.add(new ZoneAction(1,1,pal));
+		
+		return new ProximityAlert("name", "lat", "lng", "10.1", zal);
+	}
+	
 }
 
 

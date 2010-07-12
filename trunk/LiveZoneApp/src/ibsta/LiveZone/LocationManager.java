@@ -62,7 +62,7 @@ public class LocationManager
 	}
 	
 	public void removeUpdates(){
-		locationManager.removeUpdates(locationListener);	
+		locationManager.removeUpdates(locationListener);
 	}
 	
 	
