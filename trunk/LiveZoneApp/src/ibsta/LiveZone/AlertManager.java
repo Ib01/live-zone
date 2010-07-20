@@ -7,14 +7,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 
-public class AlertManger {
+public class AlertManager {
 
 	private final Context appContext;
 	private final LocationManager locationManager;
 	public long defaultExpiration;
 	public float defaultRadius;
+	private static final String ALERT_SERVICE_PACKAGE_NAME =  "ibsta.LiveZone";
+	private static final String ALERT_SERVICE_ACTIVITY_NAME =  "ibsta.LiveZone.AlertService";
+	private static final String ALERT_SERVICE_ACTION =  "ibsta.LiveZone.ProximityAlertService";
 	
-	public AlertManger(Context _appContext){
+	
+	public AlertManager(Context _appContext){
 		
 		appContext = _appContext;
 		locationManager = (LocationManager)appContext.getSystemService(Context.LOCATION_SERVICE);
@@ -68,7 +72,7 @@ public class AlertManger {
 		defaultExpiration = alertExpiration;
 		defaultRadius = radius;
 		
-    	locationManager.addProximityAlert(latitude, longtitude, radius, alertExpiration, getPendingIntent(action, plugin));
+    	locationManager.addProximityAlert(latitude, longtitude, radius, alertExpiration, getPendingActivityIntent(action, plugin));
 	}
 	
 	
@@ -81,13 +85,13 @@ public class AlertManger {
 	 */
 	public void cancelProximityAlert(String action, Plugin plugin, double latitude, double longtitude, float radius){
 		
-		locationManager.removeProximityAlert(getPendingIntent(action, plugin));
+		locationManager.removeProximityAlert(getPendingActivityIntent(action, plugin));
 	}
 
 	/*
 	 * need to ensure we use identical PendingIntent's when adding and removing
 	*/
-	private PendingIntent getPendingIntent(String action, Plugin plugin){
+	private PendingIntent getPendingActivityIntent(String action, Plugin plugin){
 		
 		Intent intent = new Intent(action);
 		intent.setComponent(new ComponentName(plugin.packageName, plugin.activityName));
@@ -97,6 +101,34 @@ public class AlertManger {
     	return proximityIntent;
 	}
 	
+	
+	
+	/**register a proximity alert for the AlertService Service  
+	 * @param latitude
+	 * @param longtitude
+	 * @param radius
+	 */
+	public void addAlertServiceProximityAlert(double latitude, double longtitude, float radius){
+		
+		locationManager.addProximityAlert(latitude, longtitude, radius, defaultExpiration, getPendingAlertServiceIntent());
+	}
+	
+	/**Cancel AlertService proximity alert. all data used to create an alert must also be provided to cancel it.  
+	 */
+	public void cancelAlertServiceProximityAlert(){
+		
+		locationManager.removeProximityAlert(getPendingAlertServiceIntent());
+	}
+	
+	
+	private PendingIntent getPendingAlertServiceIntent(){
+
+		Intent intent = new Intent(ALERT_SERVICE_ACTION);
+		intent.setComponent(new ComponentName(ALERT_SERVICE_PACKAGE_NAME, ALERT_SERVICE_ACTIVITY_NAME));
+		PendingIntent proximityIntent = PendingIntent.getService(appContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    	
+    	return proximityIntent;
+	}
 	
 	
 }

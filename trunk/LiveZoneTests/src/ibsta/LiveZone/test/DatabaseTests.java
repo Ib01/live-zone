@@ -141,6 +141,44 @@ public class DatabaseTests extends AndroidTestCase {
 	}
 	
 	
+	public void testGetAlertShallow(){
+		
+		Database db = new Database(this.getContext());
+		
+		db.open();
+		
+		int id = db.saveAlert(getMockAlert());
+		ProximityAlert al = db.getAlertShallow(id);
+		Assert.assertTrue(al != null);
+		Assert.assertTrue(al.latitude.length() > 0);
+		Assert.assertTrue(al.actions.isEmpty());
+		
+		db.close();
+		
+	}
+	
+	
+	public void testGetAlertsShallow(){
+		
+		Database db = new Database(this.getContext());
+		
+		db.open();
+		
+		int id = db.saveAlert(getMockAlert());
+		ArrayList<ProximityAlert> pal = db.getAlertsShallow();
+		
+		Assert.assertTrue(!pal.isEmpty());
+		Assert.assertTrue(pal.get(0).latitude.length() > 0);
+		
+		db.close();
+		
+	}
+	
+	
+	
+	
+	
+	
 	
 	private ProximityAlert getMockAlert()
 	{

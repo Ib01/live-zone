@@ -21,11 +21,11 @@
 		android:layout_height="wrap_content" 
 		android:orientation="vertical">
 		
-			<TextView android:text="Name (for example: Home, work ...)" android:textColor="#000000"
+			<TextView android:text="Alert Name" android:textColor="#000000"
 				android:layout_height="wrap_content" android:layout_width="wrap_content"></TextView>
 				
-			<EditText android:id="@+id/addAlert_Name" android:layout_height="wrap_content"
-				android:layout_width="fill_parent" android:text="Enter a Name for this alert"></EditText>
+			<EditText android:id="@+id/addAlert_name" android:layout_height="wrap_content"
+				android:layout_width="fill_parent"></EditText>
 		</LinearLayout>
 
 
@@ -41,17 +41,19 @@
 		android:layout_height="wrap_content" 
 		android:orientation="vertical">
 
-			<TextView android:text="Location" android:textColor="#000000"
+			<TextView android:text="Latitude" android:textColor="#000000"
 				android:layout_height="wrap_content" android:layout_width="wrap_content"></TextView>
-				
-			<EditText android:id="@+id/Location" android:layout_height="wrap_content"
+			<EditText android:id="@+id/addalert_latitude" android:layout_height="wrap_content"
+				android:layout_width="fill_parent" android:text="... acquiring location"></EditText>
+			<TextView android:text="Longtitude" android:textColor="#000000"
+				android:layout_height="wrap_content" android:layout_width="wrap_content"></TextView>
+			<EditText android:id="@+id/addalert_longtitude" android:layout_height="wrap_content"
 				android:layout_width="fill_parent" android:text="... acquiring location"></EditText>
 
-			<TextView android:text="Radius in Meters" android:textColor="#000000"
+			<TextView android:text="Radius (in Meters)" android:textColor="#000000"
 				android:id="@+id/TextView01" android:layout_width="wrap_content"
 				android:layout_height="wrap_content"></TextView>
-				
-			<EditText android:text="@+id/EditText01" android:id="@+id/EditText01"
+			<EditText android:text="@+id/EditText01" android:id="@+id/addalert_radius"
 				android:layout_width="fill_parent" android:layout_height="wrap_content"></EditText>
 		</LinearLayout>
 
@@ -65,10 +67,10 @@
 			android:id="@+id/zoneItemActionPanelList">
 		</ibsta.LiveZone.UI.Controls.ActionPanelList>
 
-		<Button android:id="@+id/addActionList" android:text="add action list" 
+		<Button android:layout_marginLeft="10px" android:id="@+id/addActionList" android:text="add action list" 
 		android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
-		<Button android:id="@+id/saveAlert" android:text="Save Alert" 
+		<Button android:layout_marginLeft="10px" android:id="@+id/saveAlert" android:text="Save Alert" 
 		android:layout_width="wrap_content" android:layout_height="wrap_content"/>
 
 	</LinearLayout>

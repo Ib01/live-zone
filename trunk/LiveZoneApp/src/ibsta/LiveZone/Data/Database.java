@@ -121,6 +121,9 @@ public class Database {
 	  private static final String SQL_GET_PLUGIN_FOR_ACTION = 
 		  "select * from " + TABLE_PLUGIN + " where " + COLUMN_ACTION_FK + "=?";
 	  
+	  private static final String SQL_GET_ALERTS_SHALLOW = 
+		  "select * from " + TABLE_LOCATION;
+	  
 	  //
 	  //TRIGGERS
 	  //
@@ -145,6 +148,7 @@ public class Database {
 	  " BEGIN" +
 	  " DELETE FROM " + TABLE_PLUGIN + " WHERE " + TABLE_PLUGIN + "." + COLUMN_ACTION_FK + " = old." + COLUMN_ACTION_ID + ";" +
 	  " END";
+	  
 	  
 	  
 	  //CONSTRUCTORS
@@ -184,7 +188,7 @@ public class Database {
 		  
 		  //NOTE: SHOULD PROBABLY BE USING TRANSACTIONS HERE
 		  
-		  //if we are updating an exitstin alert keep the 
+		  //if we are updating an existing alert keep the 
 		  //location parent but delete all child records
 		  int locId;
 		  if(alert.id == -1){
@@ -268,6 +272,42 @@ public class Database {
 		  return getLocation(alertId);
 	  }
 	  
+	  /**
+		 * get alert as an alert object. get alert record without child 
+		 * action or plugin data 
+		 * 
+		 * @param alertId. id of the item to get
+		 * @return a ProximityAlert object.  this will be null 
+		 * if no alert was found
+		 */
+	  public ProximityAlert getAlertShallow(int alertId) {
+		  
+		  return getLocation(alertId, true);
+	  }
+	  
+	  public ArrayList<ProximityAlert> getAlertsShallow() {
+		  
+		  ArrayList<ProximityAlert> pal = new ArrayList<ProximityAlert>();
+		  Cursor cursor = db.rawQuery(SQL_GET_ALERTS_SHALLOW, null);
+		  
+		  if(cursor.moveToFirst()){
+			  
+			  pal.add(
+					new ProximityAlert(
+					cursor.getInt(INDEX_LOCATION_ID),
+					cursor.getString(INDEX_NAME),
+					cursor.getString(INDEX_LATITUDE),
+					cursor.getString(INDEX_LONGTITUDE),
+					cursor.getString(INDEX_ACCURACY),
+					new ArrayList<ZoneAction>())
+			  );
+		  }
+		  cursor.close();
+			
+		  return pal;
+	  }
+	  
+	  
 	  
 	  //just for testing
 	  public void deleteDB() {
@@ -287,24 +327,36 @@ public class Database {
 		  String[] params = {((Integer)locationId).toString()};
 		  return db.rawQuery(SQL_GET_LOCATION, params);
 	  }
+	  
 	  private ProximityAlert getLocation(int locationId) {
+		  return getLocation(locationId, false);
+	  }
+	  
+	  private ProximityAlert getLocation(int locationId, boolean getShallow) {
 		  Cursor c = getLocationCursor(locationId);
 		  ProximityAlert pa = null;
 		  
 		  if(c.moveToFirst()){
 			  
+			  ArrayList<ZoneAction> za = new ArrayList<ZoneAction>();
+			  if(!getShallow)
+				  za = getActionsForLocation(c.getInt(INDEX_LOCATION_ID));
+				  
 			  pa = new ProximityAlert(
 					c.getInt(INDEX_LOCATION_ID),
 					c.getString(INDEX_NAME),
 					c.getString(INDEX_LATITUDE),
 					c.getString(INDEX_LONGTITUDE),
 					c.getString(INDEX_ACCURACY),
-					getActionsForLocation(c.getInt(INDEX_LOCATION_ID))); //could be dodgy: multiple cursors open at same time
+					za); //could be dodgy: multiple cursors open at same time
 		  }
 		  c.close();
 			
 		  return pa;
 	  }
+	  
+	
+	  
 	  
 	  private Cursor getActionsForLocationCursor(int locationId) {
 		  String[] params = {((Integer)locationId).toString()};
