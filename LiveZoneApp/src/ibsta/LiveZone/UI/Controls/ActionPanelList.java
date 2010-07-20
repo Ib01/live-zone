@@ -23,18 +23,18 @@ public class ActionPanelList extends LinearLayout implements OnClickListener {
 	
 	public ActionPanelList(Context context) {
 		super(context);
-		initialise(context);
+		//initialise(context);
 	}
 
 	public ActionPanelList(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		initialise(context);
+		//initialise(context);
 	}
 	
-	private void initialise(Context context){
+	/*private void initialise(Context context){
 		
 		createAction();
-	}
+	}*/
 	
 	public void createAction(){
 		
@@ -74,7 +74,7 @@ public class ActionPanelList extends LinearLayout implements OnClickListener {
 			ArrayList<Plugin> pls = spl.GetPlugins();
 			
 			//we do not want to add any action items if they dont have plugins
-			if(!pls.isEmpty()){
+			//if(!pls.isEmpty()){
 				
 				actions.add(
 						new ZoneAction(
@@ -83,13 +83,33 @@ public class ActionPanelList extends LinearLayout implements OnClickListener {
 							pls
 						)
 				);
-			}
+			//}
 			
 		}
 			
 		return actions;
 	}
 	
+	
+	public boolean actionPanelIsValid()
+	{
+		int cnt = this.getChildCount();
+		
+		for(int i = 0; i < cnt; i++){
+			
+			View v = this.getChildAt(i);
+			
+			SelectedPluginList spl = (SelectedPluginList) v.findViewById(R.id.actionpanellistitem_selectedPluginPanel);
+			ArrayList<Plugin> pls = spl.GetPlugins();
+			
+			if(pls.isEmpty()){
+				return false;
+			}
+			
+		}
+			
+		return true;
+	}
 	
 	
 	

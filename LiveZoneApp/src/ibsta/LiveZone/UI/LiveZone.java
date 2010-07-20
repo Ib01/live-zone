@@ -4,6 +4,7 @@ import ibsta.LiveZone.LocationManager;
 import ibsta.LiveZone.R;
 import ibsta.LiveZone.LocationManager.OnSearchCompleteListener;
 import android.app.Activity;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
@@ -34,8 +35,8 @@ public class LiveZone extends Activity {
         setContentView(R.layout.main);
 
         //UI event handlers
-        Button button = (Button)findViewById(R.id.ProximityAlert);
-	    button.setOnClickListener(mSetProximityClick);
+        //Button button = (Button)findViewById(R.id.Alert);
+	    //button.setOnClickListener(mSetClick);
 	    
 	    
 	   
@@ -79,7 +80,7 @@ public class LiveZone extends Activity {
     
     
     
-    private OnClickListener mSetProximityClick = new OnClickListener() {
+    private OnClickListener mSetClick = new OnClickListener() {
 	    public void onClick(View v) {
 	    	
 	    	
@@ -107,12 +108,12 @@ public class LiveZone extends Activity {
 			txtView.setText(p);*/
 	    	
 			
-	/*		Intent i = new Intent("ibsta.LiveZone.ProximityAlert");
+			/*Intent i = new Intent("ibsta.LiveZone.ProximityAlert");
 			i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 			i.setComponent(new ComponentName("ibsta.Activity2Test","ibsta.Activity2Test.Activity2Test"));
 			
-			getApplicationContext().startActivity(i);
-			*/
+			getApplicationContext().startActivity(i);*/
+			
 			
 	    	//SetProximityAlert();
 	    	

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="wrap_content"
+  android:text="@+id/alertPanelListItem_Container">
+  
+	<ToggleButton 
+	android:text="@+id/alertPanelListItem_EnableButton" 
+	android:id="@+id/alertPanelListItem_alertEnabledButton" 
+	android:layout_width="wrap_content" 
+	android:layout_height="wrap_content"></ToggleButton>
+	
+	<TextView android:text="@+id/alertPanelListItem_AlertName" 
+	android:id="@+id/alertpanellistitem_alertName" 
+	android:layout_width="wrap_content" 
+	android:layout_height="wrap_content"></TextView>
+
+</LinearLayout>

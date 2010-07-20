@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent">
+
+
+
+<LinearLayout
+ 	android:orientation="vertical"
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content">
+
+
+	<TextView android:text="Current Alerts"
+	android:textColor="#FFFFFF"
+	android:textSize="18px"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	></TextView>
+
+	<Button android:id="@+id/viewalerts_addalert"
+	android:text="Add New Alert"
+	android:layout_height="wrap_content"
+	android:layout_width="fill_parent"></Button>
+
+	<ibsta.LiveZone.UI.Controls.AlertPanelList
+		android:background="@drawable/panelbackground"
+		android:id="@+id/viewAlert_AlertList"
+	 	android:scrollbars="vertical"
+	 	android:orientation="vertical"
+		android:layout_width="fill_parent" 
+		android:layout_height="wrap_content">
+	</ibsta.LiveZone.UI.Controls.AlertPanelList>
+
+</LinearLayout>
+
+
+</ScrollView>
