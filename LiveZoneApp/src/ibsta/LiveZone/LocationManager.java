@@ -25,6 +25,7 @@ public class LocationManager
 		maxSearchMiliSecs = 15000;
 		targetAccuracy = 50;
 		locationManager = (android.location.LocationManager)this.context.getSystemService(Context.LOCATION_SERVICE);
+		locationListener = new LocationReceiver();
 	}
 	
 	
@@ -33,6 +34,7 @@ public class LocationManager
 		this.maxSearchMiliSecs = maxSearchMiliSecs;
 		this.targetAccuracy = targetAccuracy;
 		locationManager = (android.location.LocationManager)this.context.getSystemService(Context.LOCATION_SERVICE);
+		locationListener = new LocationReceiver();
 	}
 	
 	public boolean getUpdates(){
@@ -56,7 +58,7 @@ public class LocationManager
         startingSeconds = new java.util.Date().getTime();
         	
         //get location with best provider. COULD THROW ERROR?
-        locationListener = new LocationReceiver();
+        //can we use the same listener for multiple simultaneous calls to getUpdates?
         locationManager.requestLocationUpdates(prov, 0, 0, locationListener);
         return true;
 	}
@@ -83,6 +85,7 @@ public class LocationManager
 				(now.getTime() - startingSeconds) > maxSearchMiliSecs
 			)
     		{
+    			locationManager.removeUpdates(this);
     			onSearchComplete(location);	
     		}
     		

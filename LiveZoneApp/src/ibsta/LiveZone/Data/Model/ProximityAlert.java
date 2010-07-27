@@ -8,7 +8,7 @@ public class ProximityAlert {
 	public final String name;
 	public final String latitude;
 	public final String longtitude;
-	public final String accuracy;
+	public final String area;
 	public final ArrayList<ZoneAction> actions;
 	  
 	public ProximityAlert(int id, String name, String latitude, String longtitude, String accuracy, ArrayList<ZoneAction> actions){
@@ -17,7 +17,7 @@ public class ProximityAlert {
 		this.name = name;
 		this.latitude = latitude;
 		this.longtitude = longtitude;
-		this.accuracy = accuracy;
+		this.area = accuracy;
 		this.actions = actions;
 	}
 	
@@ -27,7 +27,7 @@ public class ProximityAlert {
 		this.name = name;
 		this.latitude = latitude;
 		this.longtitude = longtitude;
-		this.accuracy = accuracy;
+		this.area = accuracy;
 		this.actions = actions;
 	}
 }

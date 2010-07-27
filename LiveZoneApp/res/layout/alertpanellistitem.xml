@@ -6,14 +6,22 @@
   android:text="@+id/alertPanelListItem_Container">
   
 	<ToggleButton 
-	android:text="@+id/alertPanelListItem_EnableButton" 
-	android:id="@+id/alertPanelListItem_alertEnabledButton" 
+	android:text="Enabled" 
+	android:id="@+id/alertPanelListItem_enableAlertButton" 
 	android:layout_width="wrap_content" 
 	android:layout_height="wrap_content"></ToggleButton>
 	
-	<TextView android:text="@+id/alertPanelListItem_AlertName" 
+	<TextView android:text="unspecified name" 
 	android:id="@+id/alertpanellistitem_alertName" 
 	android:layout_width="wrap_content" 
 	android:layout_height="wrap_content"></TextView>
+	
+	
+	
+	<Button 
+	android:text="Delete Alert" 
+	android:id="@+id/alertPanelListItem_deleteAlertButton" 
+	android:layout_width="wrap_content" 
+	android:layout_height="wrap_content"></Button>
 
 </LinearLayout>

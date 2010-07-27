@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
+import android.net.Uri;
 
 public class AlertManager {
 
@@ -108,24 +109,27 @@ public class AlertManager {
 	 * @param longtitude
 	 * @param radius
 	 */
-	public void addAlertServiceProximityAlert(double latitude, double longtitude, float radius){
+	public void addAlertServiceProximityAlert(int alertId, double latitude, double longtitude, float radius){
 		
-		locationManager.addProximityAlert(latitude, longtitude, radius, defaultExpiration, getPendingAlertServiceIntent());
+		locationManager.addProximityAlert(latitude, longtitude, radius, defaultExpiration, getPendingAlertServiceIntent(alertId));
 	}
 	
 	/**Cancel AlertService proximity alert. all data used to create an alert must also be provided to cancel it.  
 	 */
-	public void cancelAlertServiceProximityAlert(){
+	public void cancelAlertServiceProximityAlert(int alertId){
 		
-		locationManager.removeProximityAlert(getPendingAlertServiceIntent());
+		locationManager.removeProximityAlert(getPendingAlertServiceIntent(alertId));
 	}
 	
 	
-	private PendingIntent getPendingAlertServiceIntent(){
+	private PendingIntent getPendingAlertServiceIntent(int alertId){
 
 		Intent intent = new Intent(ALERT_SERVICE_ACTION);
 		intent.setComponent(new ComponentName(ALERT_SERVICE_PACKAGE_NAME, ALERT_SERVICE_ACTIVITY_NAME));
-		PendingIntent proximityIntent = PendingIntent.getService(appContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		intent.setData(Uri.parse(String.valueOf(alertId)));
+		
+		//TEST THAT WE CAN TREAT ALERTS UNIQUELY BY THEIR DATA.  
+		PendingIntent proximityIntent = PendingIntent.g etService(appContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     	
     	return proximityIntent;
 	}
