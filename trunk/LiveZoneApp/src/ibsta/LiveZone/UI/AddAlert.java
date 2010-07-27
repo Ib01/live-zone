@@ -32,7 +32,7 @@ public class AddAlert extends Activity implements OnPluginAddListener, OnClickLi
 	Preferences preferences; 
 	int alertId;
 	AlertManager alertManager;
-	
+	Database database;
 	
 	
 	//Called when the activity is first created.
@@ -41,14 +41,13 @@ public class AddAlert extends Activity implements OnPluginAddListener, OnClickLi
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.addalert);
 		
+		database = new Database(this.getApplicationContext());
+		locationManager = new LocationManager(this);
+		alertManager = new AlertManager(getApplicationContext());
+		preferences = new Preferences(this);
+		
 		actionPanelList = (ActionPanelList)findViewById(R.id.zoneItemActionPanelList);
 		actionPanelList.setOnPluginAddListener(this);
-		
-		locationManager = new LocationManager(this);
-		locationManager.setOnSearchCompleteListener(this);
-		locationManager.getUpdates();
-		
-		alertManager = new AlertManager(this);
 		
 		Button btn = (Button)findViewById(R.id.addActionList);
 		btn.setOnClickListener(this);
@@ -56,18 +55,15 @@ public class AddAlert extends Activity implements OnPluginAddListener, OnClickLi
 		btn = (Button)findViewById(R.id.saveAlert);
 		btn.setOnClickListener(this);
 		
-		preferences = new Preferences(this);
 		alertId = preferences.GetSelectedAlert();
 		
 		if(alertId != -1)
+			PopulateForm();
+		else
 		{
-			Database database = new Database(this.getApplicationContext());
-			database.open();
-			actionPanelList.setActionItems(database.getAlert(alertId).actions);
-			database.close();	
-			
+			locationManager.setOnSearchCompleteListener(this);
+			locationManager.getUpdates();
 		}
-		
 	}
 	
 	
@@ -93,8 +89,6 @@ public class AddAlert extends Activity implements OnPluginAddListener, OnClickLi
     	//2 ways from here: to resume or to stop and then destroy 
     	super.onPause();
     	
-    	int id = saveAlert();
-    	preferences.SetSelectedAlert(id);
     }
 
     protected void onStop(){
@@ -112,6 +106,29 @@ public class AddAlert extends Activity implements OnPluginAddListener, OnClickLi
     	locationManager.removeUpdates();
     }
 	
+    
+    private void PopulateForm()
+    {
+    	EditText nme = (EditText)findViewById(R.id.addAlert_name);
+    	EditText lat = (EditText)findViewById(R.id.addalert_latitude);
+		EditText lng = (EditText)findViewById(R.id.addalert_longtitude);
+		EditText rad = (EditText)findViewById(R.id.addalert_radius);
+    	
+		database.open();
+		
+		ProximityAlert pa = database.getAlert(alertId);
+		
+		actionPanelList.setActionItems(pa.actions);
+		nme.setText(pa.name);
+		lat.setText(pa.latitude);
+		lng.setText(pa.longtitude);
+		rad.setText(pa.area);
+		
+		database.close();	
+    
+    }
+    
+    
 	
     private int saveAlert(){
 		
@@ -120,34 +137,16 @@ public class AddAlert extends Activity implements OnPluginAddListener, OnClickLi
 		EditText lng = (EditText)findViewById(R.id.addalert_longtitude);
 		EditText rad = (EditText)findViewById(R.id.addalert_radius);
     	
-		ProximityAlert alert;
-		if(alertId != -1){
-			
-			//update existing record
-			alert = new ProximityAlert
-			(
-					alertId,
-					nme.getText().toString(), 
-					lat.getText().toString(), 
-					lng.getText().toString(), 
-					rad.getText().toString(), 
-					actionPanelList.getActionItems()
-			);
-		}
-		else{
-			
-			//add new record
-			alert = new ProximityAlert
-			(
-					nme.getText().toString(), 
-					lat.getText().toString(), 
-					lng.getText().toString(), 
-					rad.getText().toString(), 
-					actionPanelList.getActionItems()
-			);
-		}
-		
-		Database database = new Database(this.getApplicationContext());
+		//if adding a new alert, alertId will be -1 
+		ProximityAlert alert = new ProximityAlert 
+		(
+				alertId,
+				nme.getText().toString(), 
+				lat.getText().toString(), 
+				lng.getText().toString(), 
+				rad.getText().toString(), 
+				actionPanelList.getActionItems()
+		);
 		
 		database.open();
 		int id = database.saveAlert(alert);
@@ -158,18 +157,16 @@ public class AddAlert extends Activity implements OnPluginAddListener, OnClickLi
     
     
     
-    private void activateAlert()
+    private void activateAlert(int alertId)
     {
     	EditText lat = (EditText)findViewById(R.id.addalert_latitude);
 		EditText lng = (EditText)findViewById(R.id.addalert_longtitude);
 		EditText rad = (EditText)findViewById(R.id.addalert_radius);
-		
-    	AlertManager am = new AlertManager(getApplicationContext());
-    
-    	
+	
     	//am.addAlertServiceProximityAlert(149.155421, -35.239395, 100.0f);
     	
-    	am.addAlertServiceProximityAlert(
+    	alertManager.addAlertServiceProximityAlert(
+    			alertId,
     			Double.valueOf(lat.getText().toString()), 
     			Double.valueOf(lng.getText().toString()), 
     			Float.valueOf(rad.getText().toString())
@@ -186,8 +183,6 @@ public class AddAlert extends Activity implements OnPluginAddListener, OnClickLi
 		
 		EditText lng = (EditText)findViewById(R.id.addalert_longtitude);
 		lng.setText(String.valueOf(location.getLongitude()));
-
-		locationManager.removeUpdates();
 	}
 	
 	//All button clicks on the form routed here
@@ -200,8 +195,7 @@ public class AddAlert extends Activity implements OnPluginAddListener, OnClickLi
 				break;
 			case R.id.saveAlert:
 				if(formValid()){
-					activateAlert();
-					saveAlert();
+					activateAlert(saveAlert());
 				}
 				else
 					Toast.makeText(getApplicationContext(), "action panel not valid", Toast.LENGTH_LONG).show();

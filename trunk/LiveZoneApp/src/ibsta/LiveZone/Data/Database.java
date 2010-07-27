@@ -197,6 +197,7 @@ public class Database {
 				  return locId; //error occured
 		  }
 		  else{
+			  UpdateLocationRow(alert);
 			  deleteActionsForLocation(alert.id);
 			  locId = alert.id;
 		  }
@@ -290,17 +291,20 @@ public class Database {
 		  ArrayList<ProximityAlert> pal = new ArrayList<ProximityAlert>();
 		  Cursor cursor = db.rawQuery(SQL_GET_ALERTS_SHALLOW, null);
 		  
-		  if(cursor.moveToFirst()){
+		  if(cursor.moveToFirst())
+		  {
+			do {
+				  pal.add(
+						new ProximityAlert(
+						cursor.getInt(INDEX_LOCATION_ID),
+						cursor.getString(INDEX_NAME),
+						cursor.getString(INDEX_LATITUDE),
+						cursor.getString(INDEX_LONGTITUDE),
+						cursor.getString(INDEX_ACCURACY),
+						new ArrayList<ZoneAction>())
+				  );
+		  	} while(cursor.moveToNext());
 			  
-			  pal.add(
-					new ProximityAlert(
-					cursor.getInt(INDEX_LOCATION_ID),
-					cursor.getString(INDEX_NAME),
-					cursor.getString(INDEX_LATITUDE),
-					cursor.getString(INDEX_LONGTITUDE),
-					cursor.getString(INDEX_ACCURACY),
-					new ArrayList<ZoneAction>())
-			  );
 		  }
 		  cursor.close();
 			
@@ -417,13 +421,28 @@ public class Database {
 	  
 	  
 	 
+	  private int UpdateLocationRow(ProximityAlert alert)
+	  {
+		  ContentValues contentValues = new ContentValues();
+		  contentValues.put(COLUMN_NAME, alert.name);
+		  contentValues.put(COLUMN_LATITUDE, alert.latitude);
+		  contentValues.put(COLUMN_LONGTITUDE, alert.longtitude);
+		  contentValues.put(COLUMN_ACCURACY, alert.area);
+		  
+		  //return (int)db.insert(TABLE_LOCATION, null, contentValues);
+		  
+		  String[] params = {String.valueOf(alert.id)};
+		  return db.update(TABLE_LOCATION, contentValues, COLUMN_LOCATION_ID +"=?", params);
+	  }
+	  
+	  
 	  private int AddLocationRow(ProximityAlert alert)
 	  {
 		  ContentValues contentValues = new ContentValues();
 		  contentValues.put(COLUMN_NAME, alert.name);
 		  contentValues.put(COLUMN_LATITUDE, alert.latitude);
 		  contentValues.put(COLUMN_LONGTITUDE, alert.longtitude);
-		  contentValues.put(COLUMN_ACCURACY, alert.accuracy);
+		  contentValues.put(COLUMN_ACCURACY, alert.area);
 		  
 		  return (int)db.insert(TABLE_LOCATION, null, contentValues);
 	  }

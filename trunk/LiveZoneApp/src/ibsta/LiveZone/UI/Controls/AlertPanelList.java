@@ -4,9 +4,7 @@
 package ibsta.LiveZone.UI.Controls;
 
 import ibsta.LiveZone.R;
-import ibsta.LiveZone.Data.Model.Plugin;
 import ibsta.LiveZone.Data.Model.ProximityAlert;
-import ibsta.LiveZone.UI.Controls.PluginDialog.OnPluginSelectedListener;
 
 import java.util.ArrayList;
 
@@ -15,9 +13,9 @@ import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * @author ib
@@ -26,6 +24,7 @@ import android.widget.Toast;
 public class AlertPanelList extends LinearLayout implements OnClickListener {
 
 	private OnAlertSelectedListener onAlertSelectedListener = null;
+	private OnAlertDeleteListener onAlertDeleteListener = null;
 	
 	/**
 	 * @param context
@@ -47,6 +46,8 @@ public class AlertPanelList extends LinearLayout implements OnClickListener {
 	
 	public void setAlertItems(ArrayList<ProximityAlert> alerts){
 		
+		this.removeAllViews();
+		
 		for(ProximityAlert pa : alerts){
 			this.addView(getView(pa));	
 		}
@@ -64,6 +65,10 @@ public class AlertPanelList extends LinearLayout implements OnClickListener {
 		TextView nme = (TextView) vw.findViewById(R.id.alertpanellistitem_alertName);
 		nme.setText(alert.name);
 		
+		Button dab = (Button) vw.findViewById(R.id.alertPanelListItem_deleteAlertButton);
+		dab.setOnClickListener(this);
+		dab.setTag(alert.id);
+		
 		//tag the list that this particular add button needs to add plugins too.
 		vw.setOnClickListener(this);
 		vw.setTag(alert.id);
@@ -72,10 +77,31 @@ public class AlertPanelList extends LinearLayout implements OnClickListener {
 	}
 
 	public void onClick(View v) {
-
 		
-		onAlertSelected((Integer)v.getTag());
+		int id = (Integer)v.getTag();
+		
+		switch (v.getId())
+		{
+			case R.id.alertPanelListItem_deleteAlertButton:
+				onAlertDelete(id);
+				RemoveAlertFromPanel(id);
+				break;
+			default:
+				onAlertSelected(id);
+		}
+		
+		
 	}
+	
+	
+	private void RemoveAlertFromPanel(int id)
+	{
+		View vw = this.findViewWithTag(id);
+		this.removeView(vw);
+	}
+	
+	
+	
 	
 	
 	private void onAlertSelected(int alertId){
@@ -84,7 +110,6 @@ public class AlertPanelList extends LinearLayout implements OnClickListener {
 			onAlertSelectedListener.onAlertSelected(alertId);
 		}
 	}
-	
 	// Allows the user to set an Listener and react to the event
 	public void setOnAlertSelectedListener(OnAlertSelectedListener listener) {
 		onAlertSelectedListener = listener;
@@ -93,6 +118,25 @@ public class AlertPanelList extends LinearLayout implements OnClickListener {
 	public interface OnAlertSelectedListener {
 		public abstract void onAlertSelected(int alertId);
 	}
+	
+	
+	private void onAlertDelete(int alertId){
+
+		if(onAlertDeleteListener != null) {
+			onAlertDeleteListener.onAlertDelete(alertId);
+		}
+	}
+	// Allows the user to set an Listener and react to the event
+	public void setOnAlertDeleteListener(OnAlertDeleteListener listener) {
+		onAlertDeleteListener = listener;
+	}
+	
+	public interface OnAlertDeleteListener {
+		public abstract void onAlertDelete(int alertId);
+	}
+	
+	
+	
 	
 	
 }

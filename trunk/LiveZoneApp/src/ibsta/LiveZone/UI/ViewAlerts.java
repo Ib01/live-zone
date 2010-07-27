@@ -5,6 +5,7 @@ import ibsta.LiveZone.Data.Database;
 import ibsta.LiveZone.Data.Preferences;
 import ibsta.LiveZone.Data.Model.ProximityAlert;
 import ibsta.LiveZone.UI.Controls.AlertPanelList;
+import ibsta.LiveZone.UI.Controls.AlertPanelList.OnAlertDeleteListener;
 import ibsta.LiveZone.UI.Controls.AlertPanelList.OnAlertSelectedListener;
 
 import java.util.ArrayList;
@@ -17,19 +18,22 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class ViewAlerts extends Activity implements OnAlertSelectedListener, OnClickListener  {
+public class ViewAlerts extends Activity implements OnAlertDeleteListener, OnAlertSelectedListener, OnClickListener  {
 
 	private Preferences preferences ;
+	private Database database; 
 	
 	//Called when the activity is first created.
 	public void onCreate(Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.viewalerts);
-	
-		PopulateAlertList();
+
+		database = new Database(this.getApplicationContext());
+		
 		AlertPanelList al = (AlertPanelList)findViewById(R.id.viewAlert_AlertList);
 		al.setOnAlertSelectedListener(this);
+		al.setOnAlertDeleteListener(this);
 		
 		Button btn = (Button)findViewById(R.id.viewalerts_addalert);
 		btn.setOnClickListener(this);
@@ -44,16 +48,22 @@ public class ViewAlerts extends Activity implements OnAlertSelectedListener, OnC
 	
 	protected void onStart(){
 		//Activity state is still available
+		//activity is being created or is restarting after being fully hidden by another activity
 		super.onStart();
+		
+		PopulateAlertList();
 	}
     
     protected void onRestart(){
     	//Activity state is still available
+    	//activity is being restarted after being fully hidden by another activity
     	super.onRestart();
     }
 
     protected void onResume(){
     	//Activity state is still available
+    	//activity is being created or is restarting after being fully hidden by another activity 
+    	//or is resuming after being partially hidden by another activity
     	super.onResume();
     }
 
@@ -81,16 +91,14 @@ public class ViewAlerts extends Activity implements OnAlertSelectedListener, OnC
     
     private void PopulateAlertList()
     {
-    	Database db = new Database(this.getApplicationContext());
+		database.open();
 		
-		db.open();
-		
-		ArrayList<ProximityAlert> pal = db.getAlertsShallow();
+		ArrayList<ProximityAlert> pal = database.getAlertsShallow();
 		
 		AlertPanelList al = (AlertPanelList)findViewById(R.id.viewAlert_AlertList);
 		al.setAlertItems(pal);
 		
-		db.close();
+		database.close();
     }
 
 
@@ -109,6 +117,8 @@ public class ViewAlerts extends Activity implements OnAlertSelectedListener, OnC
 	public void onClick(View v) {
 		// the add new alert button
 		
+		//clear the selected alert to add a new one
+		preferences.SetSelectedAlert(-1);
 		startAddAlertActivity();
 	}
 	
@@ -117,6 +127,14 @@ public class ViewAlerts extends Activity implements OnAlertSelectedListener, OnC
 	{
 		Intent i = new Intent(this, AddAlert.class);
         startActivity(i);
+	}
+
+
+
+	public void onAlertDelete(int alertId) {
+		database.open();
+		database.deleteAlert(alertId);
+		database.close();
 	}
 	
 	
