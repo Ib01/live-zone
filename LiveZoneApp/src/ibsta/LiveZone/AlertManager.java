@@ -1,6 +1,7 @@
 package ibsta.LiveZone;
 
 import ibsta.LiveZone.Data.Model.Plugin;
+import ibsta.LiveZone.Data.Model.ProximityAlert;
 import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.Context;
@@ -103,8 +104,25 @@ public class AlertManager {
 	}
 	
 	
+	/**register a proximity alert for the AlertService Service  
+	 * @param alert id
+	 * @param latitude
+	 * @param longtitude
+	 * @param radius
+	 */
+	public void addAlertServiceProximityAlert(ProximityAlert alert){
+		
+		addAlertServiceProximityAlert(
+			alert.id,
+			Double.valueOf(alert.latitude), 
+			Double.valueOf(alert.longtitude), 
+			Float.valueOf(alert.radius)
+		);
+	}
+	
 	
 	/**register a proximity alert for the AlertService Service  
+	 * @param alert id
 	 * @param latitude
 	 * @param longtitude
 	 * @param radius
@@ -129,7 +147,7 @@ public class AlertManager {
 		intent.setData(Uri.parse(String.valueOf(alertId)));
 		
 		//TEST THAT WE CAN TREAT ALERTS UNIQUELY BY THEIR DATA.  
-		PendingIntent proximityIntent = PendingIntent.g etService(appContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent proximityIntent = PendingIntent.getService(appContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     	
     	return proximityIntent;
 	}

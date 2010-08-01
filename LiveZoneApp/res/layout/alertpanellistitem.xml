@@ -6,7 +6,8 @@
   android:text="@+id/alertPanelListItem_Container">
   
 	<ToggleButton 
-	android:text="Enabled" 
+	android:checked="false"
+	android:text="Enabled"
 	android:id="@+id/alertPanelListItem_enableAlertButton" 
 	android:layout_width="wrap_content" 
 	android:layout_height="wrap_content"></ToggleButton>

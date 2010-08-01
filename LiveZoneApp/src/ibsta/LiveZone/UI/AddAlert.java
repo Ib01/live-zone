@@ -15,6 +15,7 @@ import ibsta.LiveZone.UI.Controls.ActionPanelList.OnPluginAddListener;
 import ibsta.LiveZone.UI.Controls.PluginDialog.OnPluginSelectedListener;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
@@ -42,7 +43,7 @@ public class AddAlert extends Activity implements OnPluginAddListener, OnClickLi
 		setContentView(R.layout.addalert);
 		
 		database = new Database(this.getApplicationContext());
-		locationManager = new LocationManager(this);
+		locationManager = new LocationManager(this.getApplicationContext());
 		alertManager = new AlertManager(getApplicationContext());
 		preferences = new Preferences(this);
 		
@@ -122,7 +123,7 @@ public class AddAlert extends Activity implements OnPluginAddListener, OnClickLi
 		nme.setText(pa.name);
 		lat.setText(pa.latitude);
 		lng.setText(pa.longtitude);
-		rad.setText(pa.area);
+		rad.setText(pa.radius);
 		
 		database.close();	
     
@@ -145,6 +146,7 @@ public class AddAlert extends Activity implements OnPluginAddListener, OnClickLi
 				lat.getText().toString(), 
 				lng.getText().toString(), 
 				rad.getText().toString(), 
+				1,
 				actionPanelList.getActionItems()
 		);
 		
@@ -196,6 +198,7 @@ public class AddAlert extends Activity implements OnPluginAddListener, OnClickLi
 			case R.id.saveAlert:
 				if(formValid()){
 					activateAlert(saveAlert());
+					this.finish();
 				}
 				else
 					Toast.makeText(getApplicationContext(), "action panel not valid", Toast.LENGTH_LONG).show();

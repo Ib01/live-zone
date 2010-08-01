@@ -54,7 +54,6 @@ public class DatabaseTests extends AndroidTestCase {
 	}
 	
 	
-	
 	public void testGetAlertCursor()
 	{
 		Database db = new Database(this.getContext());
@@ -189,7 +188,7 @@ public class DatabaseTests extends AndroidTestCase {
 		ArrayList<ZoneAction> zal = new ArrayList<ZoneAction>();
 		zal.add(new ZoneAction(1,1,pal));
 		
-		return new ProximityAlert("name", "lat", "lng", "10.1", zal);
+		return new ProximityAlert("name", "lat", "lng", "10.1", 1, zal);
 	}
 	
 }

@@ -3,7 +3,9 @@
  */
 package ibsta.LiveZone;
 
+import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.widget.Toast;
@@ -20,7 +22,6 @@ public class AlertService extends Service {
 	 */
 	@Override
 	public void onCreate() {
-		// TODO Auto-generated method stub
 		super.onCreate();
 		
 		Toast.makeText(getApplicationContext(), "created", Toast.LENGTH_LONG).show();
@@ -31,10 +32,16 @@ public class AlertService extends Service {
 	 */
 	@Override
 	public void onStart(Intent intent, int startId) {
-		// TODO Auto-generated method stub
 		super.onStart(intent, startId);
 		
-		Toast.makeText(getApplicationContext(), "started", Toast.LENGTH_LONG).show();
+		Toast.makeText(getApplicationContext(), "started: " + intent.getData().toString(), Toast.LENGTH_LONG).show();
+		
+		NotificationManager notificationManager = new NotificationManager(this.getApplicationContext());  
+		
+		boolean entering = intent.getBooleanExtra(android.location.LocationManager.KEY_PROXIMITY_ENTERING, false);
+		String alertId =   intent.getData().toString();
+				
+		notificationManager.notify(entering, alertId);
 	}
 	
 	
@@ -43,7 +50,6 @@ public class AlertService extends Service {
 	 */
 	@Override
 	public void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		
 		Toast.makeText(getApplicationContext(), "destroyed", Toast.LENGTH_LONG).show();
@@ -54,7 +60,6 @@ public class AlertService extends Service {
 	 */
 	@Override
 	public IBinder onBind(Intent arg0) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
