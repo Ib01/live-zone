@@ -21,7 +21,7 @@ public class Database {
 	  private final Context context;
 	  private myDbHelper dbHelper;
 	  
-	  private static final int DATABASE_VERSION = 6;
+	  private static final int DATABASE_VERSION = 7;
 	  private static final String DATABASE_NAME = "LiveZone.db";
 	  	
 	  //
@@ -33,6 +33,7 @@ public class Database {
 	  public static final String COLUMN_LATITUDE="latitude";
 	  public static final String COLUMN_LONGTITUDE="longtitude";
 	  public static final String COLUMN_ACCURACY="accuracy";
+	  public static final String COLUMN_ENABLED="enabled";
 	  
 	  private static final String SQL_CREATE_LOCATION_TABLE = 
 		  "create table " 
@@ -42,7 +43,8 @@ public class Database {
 		  + COLUMN_NAME + " text not null, "
 		  + COLUMN_LATITUDE + " text not null, "
 		  + COLUMN_LONGTITUDE + " text not null, "
-		  + COLUMN_ACCURACY + " text not null"
+		  + COLUMN_ACCURACY + " text not null, "
+		  + COLUMN_ENABLED +  " integer not null"
 		  + ");";
 	  
 	  public static final int INDEX_LOCATION_ID = 0;
@@ -50,6 +52,7 @@ public class Database {
 	  public static final int INDEX_LATITUDE = 2;
 	  public static final int INDEX_LONGTITUDE = 3;
 	  public static final int INDEX_ACCURACY = 4;
+	  public static final int INDEX_ENABLED = 5;
 	  
 	  //
 	  // ACTION TABLE
@@ -183,36 +186,42 @@ public class Database {
 	  }
 	  
 	  
-	  
+	  /**
+		 * insert or update an alert. if the alert has an id the method will update 
+		 * otherwise it will create a new alert 
+		 * 
+		 * @alert the alert to save 
+		 * @return returns the row that was inserted or updated.  -1 indicates an error occured 
+		 */
 	  public int saveAlert(ProximityAlert alert) {
 		  
 		  //NOTE: SHOULD PROBABLY BE USING TRANSACTIONS HERE
 		  
 		  //if we are updating an existing alert keep the 
 		  //location parent but delete all child records
-		  int locId;
-		  if(alert.id == -1){
+		  int locId = alert.id;
+		  
+		  if(locId == -1){
 			  locId = AddLocationRow(alert);
 			  if(locId < 0)
-				  return locId; //error occured
+				  return -1; //error occured
 		  }
 		  else{
 			  UpdateLocationRow(alert);
-			  deleteActionsForLocation(alert.id);
-			  locId = alert.id;
+			  deleteActionsForLocation(locId); //triggers will ensure plugins are deleted too 
 		  }
 		  
 		  for(ZoneAction za : alert.actions)
 		  {
 			  int actId = AddActionRow(za,locId);  
 			  if(actId < 0)
-				  return actId; //error occured
+				  return -1; //error occured
 			  
 			  for(Plugin pi : za.plugins)
 			  {
 				  int pinId = AddPluginRow(pi, actId);
 				  if(pinId < 0)
-					  return pinId; //error occured
+					  return -1; //error occured
 			  }
 		  }
 		
@@ -301,6 +310,7 @@ public class Database {
 						cursor.getString(INDEX_LATITUDE),
 						cursor.getString(INDEX_LONGTITUDE),
 						cursor.getString(INDEX_ACCURACY),
+						cursor.getInt(INDEX_ENABLED),
 						new ArrayList<ZoneAction>())
 				  );
 		  	} while(cursor.moveToNext());
@@ -310,6 +320,23 @@ public class Database {
 			
 		  return pal;
 	  }
+	  
+	  /**
+		 * update the enabled status of an alert
+		 * 
+		 * @param alertId. id of the alert to update
+		 * @return the number of rows effected. <=0 would indicate 
+		 * that the alert wasn't found or error occured 
+		 */
+	  public int updateAlertEnabledStatus(int alertId, boolean enabled)
+	  {
+		  ContentValues contentValues = new ContentValues();
+		  contentValues.put(COLUMN_ENABLED, enabled);
+		  
+		  String[] params = {String.valueOf(alertId)};
+		  return db.update(TABLE_LOCATION, contentValues, COLUMN_LOCATION_ID +"=?", params);
+	  }
+	  
 	  
 	  
 	  
@@ -352,6 +379,7 @@ public class Database {
 					c.getString(INDEX_LATITUDE),
 					c.getString(INDEX_LONGTITUDE),
 					c.getString(INDEX_ACCURACY),
+					c.getInt(INDEX_ENABLED),
 					za); //could be dodgy: multiple cursors open at same time
 		  }
 		  c.close();
@@ -427,9 +455,8 @@ public class Database {
 		  contentValues.put(COLUMN_NAME, alert.name);
 		  contentValues.put(COLUMN_LATITUDE, alert.latitude);
 		  contentValues.put(COLUMN_LONGTITUDE, alert.longtitude);
-		  contentValues.put(COLUMN_ACCURACY, alert.area);
-		  
-		  //return (int)db.insert(TABLE_LOCATION, null, contentValues);
+		  contentValues.put(COLUMN_ACCURACY, alert.radius);
+		  contentValues.put(COLUMN_ENABLED, alert.enabled);
 		  
 		  String[] params = {String.valueOf(alert.id)};
 		  return db.update(TABLE_LOCATION, contentValues, COLUMN_LOCATION_ID +"=?", params);
@@ -442,7 +469,8 @@ public class Database {
 		  contentValues.put(COLUMN_NAME, alert.name);
 		  contentValues.put(COLUMN_LATITUDE, alert.latitude);
 		  contentValues.put(COLUMN_LONGTITUDE, alert.longtitude);
-		  contentValues.put(COLUMN_ACCURACY, alert.area);
+		  contentValues.put(COLUMN_ACCURACY, alert.radius);
+		  contentValues.put(COLUMN_ENABLED, alert.enabled);
 		  
 		  return (int)db.insert(TABLE_LOCATION, null, contentValues);
 	  }

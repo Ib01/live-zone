@@ -40,7 +40,7 @@ public class PluginList extends ListView {
 		ArrayList<String> al = new ArrayList<String>();
 		al.add(context.getResources().getText(R.string.enter_intent_filter).toString());
 		al.add(context.getResources().getText(R.string.exit_intent_filter).toString());
-		PluginManager pm = new PluginManager(context, al);
+		PluginManager pm = new PluginManager(context.getApplicationContext(), al);
 		
 		PluginListAdapter pa = new PluginListAdapter(context, pm.getPlugins());
 		

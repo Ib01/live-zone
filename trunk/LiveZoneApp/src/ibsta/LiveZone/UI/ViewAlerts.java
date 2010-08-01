@@ -1,11 +1,13 @@
 package ibsta.LiveZone.UI;
 
+import ibsta.LiveZone.AlertManager;
 import ibsta.LiveZone.R;
 import ibsta.LiveZone.Data.Database;
 import ibsta.LiveZone.Data.Preferences;
 import ibsta.LiveZone.Data.Model.ProximityAlert;
 import ibsta.LiveZone.UI.Controls.AlertPanelList;
 import ibsta.LiveZone.UI.Controls.AlertPanelList.OnAlertDeleteListener;
+import ibsta.LiveZone.UI.Controls.AlertPanelList.OnAlertEnabledStateChangedListener;
 import ibsta.LiveZone.UI.Controls.AlertPanelList.OnAlertSelectedListener;
 
 import java.util.ArrayList;
@@ -18,10 +20,11 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class ViewAlerts extends Activity implements OnAlertDeleteListener, OnAlertSelectedListener, OnClickListener  {
+public class ViewAlerts extends Activity implements OnAlertEnabledStateChangedListener, OnAlertDeleteListener, OnAlertSelectedListener, OnClickListener  {
 
 	private Preferences preferences ;
 	private Database database; 
+	private AlertManager alertManager;
 	
 	//Called when the activity is first created.
 	public void onCreate(Bundle savedInstanceState) {
@@ -34,14 +37,13 @@ public class ViewAlerts extends Activity implements OnAlertDeleteListener, OnAle
 		AlertPanelList al = (AlertPanelList)findViewById(R.id.viewAlert_AlertList);
 		al.setOnAlertSelectedListener(this);
 		al.setOnAlertDeleteListener(this);
+		al.setOnAlertEnabledStateChangedListener(this);
 		
 		Button btn = (Button)findViewById(R.id.viewalerts_addalert);
 		btn.setOnClickListener(this);
 		
 		preferences = new Preferences(this);
-		
-
-		//startService(new Intent(this, AlertService.class));
+		alertManager = new AlertManager(this.getApplicationContext());
 	}
 	
 	
@@ -112,6 +114,24 @@ public class ViewAlerts extends Activity implements OnAlertDeleteListener, OnAle
 		startAddAlertActivity();
 	}
 
+	
+	public void onAlertEnabledStateChanged(int alertId, boolean enable) {
+
+		database.open();
+		
+		if(enable){
+			ProximityAlert alert = database.getAlert(alertId);	
+			alertManager.addAlertServiceProximityAlert(alert);
+		}
+		else{
+			alertManager.cancelAlertServiceProximityAlert(alertId);
+		}
+		
+		
+		database.updateAlertEnabledStatus(alertId, enable);
+		database.close();
+	}
+	
 
 
 	public void onClick(View v) {
@@ -133,9 +153,14 @@ public class ViewAlerts extends Activity implements OnAlertDeleteListener, OnAle
 
 	public void onAlertDelete(int alertId) {
 		database.open();
+		alertManager.cancelAlertServiceProximityAlert(alertId);
 		database.deleteAlert(alertId);
 		database.close();
 	}
+
+
+
+	
 	
 	
 }
