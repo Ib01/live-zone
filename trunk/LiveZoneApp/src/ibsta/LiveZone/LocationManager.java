@@ -46,6 +46,7 @@ public class LocationManager
 		Criteria crit = new Criteria();
 		crit.setAccuracy(Criteria.ACCURACY_FINE);
 		
+		
         String prov = locationManager.getBestProvider(crit, true);
         
         if(prov == null){

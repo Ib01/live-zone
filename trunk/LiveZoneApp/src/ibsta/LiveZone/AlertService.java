@@ -3,9 +3,8 @@
  */
 package ibsta.LiveZone;
 
-import android.app.PendingIntent;
+import ibsta.LiveZone.Services.NotificationManager;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.os.IBinder;
 import android.widget.Toast;

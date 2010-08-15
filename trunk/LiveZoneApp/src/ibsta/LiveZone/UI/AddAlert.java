@@ -1,7 +1,6 @@
 package ibsta.LiveZone.UI;
 
 
-import ibsta.LiveZone.AlertManager;
 import ibsta.LiveZone.LocationManager;
 import ibsta.LiveZone.R;
 import ibsta.LiveZone.Data.Database;
@@ -9,6 +8,7 @@ import ibsta.LiveZone.Data.Preferences;
 import ibsta.LiveZone.Data.Model.Plugin;
 import ibsta.LiveZone.Data.Model.ProximityAlert;
 import ibsta.LiveZone.LocationManager.OnSearchCompleteListener;
+import ibsta.LiveZone.Services.AlertManager;
 import ibsta.LiveZone.UI.Controls.ActionPanelList;
 import ibsta.LiveZone.UI.Controls.PluginDialog;
 import ibsta.LiveZone.UI.Controls.ActionPanelList.OnPluginAddListener;

@@ -1,4 +1,4 @@
-package ibsta.LiveZone;
+package ibsta.LiveZone.Services;
 
 import ibsta.LiveZone.Data.Model.Plugin;
 import ibsta.LiveZone.Data.Model.ProximityAlert;
@@ -135,6 +135,7 @@ public class AlertManager {
 	/**Cancel AlertService proximity alert. all data used to create an alert must also be provided to cancel it.  
 	 */
 	public void cancelAlertServiceProximityAlert(int alertId){
+		
 		
 		locationManager.removeProximityAlert(getPendingAlertServiceIntent(alertId));
 	}

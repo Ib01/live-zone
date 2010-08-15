@@ -1,8 +1,8 @@
 package ibsta.LiveZone.UI.Controls;
 
 import ibsta.LiveZone.R;
-import ibsta.LiveZone.Data.PluginManager;
 import ibsta.LiveZone.Data.Model.Plugin;
+import ibsta.LiveZone.Services.PluginManager;
 
 import java.util.ArrayList;
 import java.util.List;
