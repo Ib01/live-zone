@@ -1,5 +1,7 @@
-package ibsta.LiveZone;
+package ibsta.LiveZone.Services;
 
+import ibsta.LiveZone.R;
+import ibsta.LiveZone.R.drawable;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Context;
