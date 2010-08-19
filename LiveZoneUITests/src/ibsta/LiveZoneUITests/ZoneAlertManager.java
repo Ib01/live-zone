@@ -36,10 +36,10 @@ public class ZoneAlertManager {
 		if(!timeRunnable.busy){
 		
 			timeRunnable.busy = true;
-			timeRunnable.GPSReceiver = (GPSReceiver) setUpdate(new GPSReceiver(), LocationManager.GPS_PROVIDER);
-			timeRunnable.NetworkReceiver = (NetworkReceiver) setUpdate(new NetworkReceiver(), LocationManager.NETWORK_PROVIDER);
+			timeRunnable.GPSReceiver = (GPSReceiver) requestLocation(new GPSReceiver(), LocationManager.GPS_PROVIDER);
+			timeRunnable.NetworkReceiver = (NetworkReceiver) requestLocation(new NetworkReceiver(), LocationManager.NETWORK_PROVIDER);
 					
-			timeHandler.postDelayed(timeRunnable, 30000);
+			timeHandler.postDelayed(timeRunnable, 20000);
 		}
 		
 	}
@@ -87,7 +87,8 @@ public class ZoneAlertManager {
 			Log.i(componentName, msg);
 			//Toast.makeText(appContext, msg, Toast.LENGTH_LONG).show();
 			
-			msg = String.format("%f:%f.Ac:%.2f. %s",bestLocation.getLatitude(), bestLocation.getLongitude(), bestLocation.getAccuracy(), provider);
+			if(bestLocation != null)
+				msg = String.format("%f:%f.Ac:%.2f. %s",bestLocation.getLatitude(), bestLocation.getLongitude(), bestLocation.getAccuracy(), provider);
 			
 			notificationManager.notify("location aquired", msg);
 			
@@ -108,7 +109,7 @@ public class ZoneAlertManager {
 	 * @param alertId. id of the item to get
 	 * @return a cursor
 	 */
-	private LocationReceiver setUpdate(LocationReceiver receiver, String provider){
+	private LocationReceiver requestLocation(LocationReceiver receiver, String provider){
 		
 		if(locationManager.isProviderEnabled(provider)){
 			
@@ -131,15 +132,11 @@ public class ZoneAlertManager {
 		return receiver;
 	}
 	
-	
-	
 	public void cancelGetLocationAsync(){
 		
 		timeRunnable.CancelUpdates();
 		timeHandler.removeCallbacks(timeRunnable);
 	}
-	
-	
 	
 	
 	
@@ -170,10 +167,7 @@ public class ZoneAlertManager {
     	}
     	public void onStatusChanged(String provider, int status, Bundle extras) {
     	}
-
     } 
-	
-	
 
 }
 
